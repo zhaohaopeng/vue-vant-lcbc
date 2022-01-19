@@ -53,9 +53,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 .swiper {
   width: 100%;
   height: 200px;
+  margin-top: 50px;
 }
 
 .swiper-container {
@@ -82,6 +84,8 @@ export default {
   transition: 300ms;
   background: red;
   transform: scale(0.9);
+  border-radius: 6px;
+  overflow: hidden;
   img {
     width: 100%;
     height: 100%;
