@@ -19,7 +19,11 @@ export default {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   font-size: 14px;
+}
+
+.van-dialog {
+  border-radius: 0 !important;
+  background: none !important;
 }
 </style>
