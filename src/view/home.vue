@@ -88,7 +88,7 @@ export default {
   components: {
     ModelCouponsGuide,
     ModelResult,
-    ModelExchange
+    ModelExchange,
   },
   setup () {
 
