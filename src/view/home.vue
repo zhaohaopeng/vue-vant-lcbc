@@ -5,12 +5,8 @@
     </div>
     <div class="body">
       <div class="box-1">
-        <div class="button" @click="clickCouponsGuide('可用城市')">
-          可用城市
-        </div>
-        <div class="button" @click="clickCouponsGuide('用劵指引')">
-          用劵指引
-        </div>
+        <div class="button" @click="clickCouponsGuide(1)">可用城市</div>
+        <div class="button" @click="clickCouponsGuide(2)">用劵指引</div>
       </div>
       <div class="box-2">
         <div class="top">
@@ -19,20 +15,14 @@
         </div>
         <div class="center">
           <div
+            v-for="item in state.items"
+            :key="item.active"
             class="card"
-            :class="{ active: itemsActive }"
-            @click="itemsActive = true"
+            :class="{ active: itemsActive == item.active }"
+            @click="itemsActive = item.active"
           >
-            <div class="title">1 x 0.99元乘车劵</div>
-            <div class="text">734积分</div>
-          </div>
-          <div
-            class="card"
-            :class="{ active: !itemsActive }"
-            @click="itemsActive = false"
-          >
-            <div class="title">10 x 0.99元乘车劵</div>
-            <div class="text">734积分</div>
+            <div class="title">{{ item.name }}</div>
+            <div class="text">{{ item.the }}积分</div>
           </div>
         </div>
         <div class="bottom">
@@ -81,9 +71,11 @@
 
 <script>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import ModelCouponsGuide from '../components/ModelCouponsGuide'
 import ModelResult from '../components/ModelResult'
 import ModelExchange from '../components/ModelExchange'
+import { addOrder } from '@/api/index'
 export default {
   components: {
     ModelCouponsGuide,
@@ -91,18 +83,54 @@ export default {
     ModelExchange,
   },
   setup () {
-
-    const itemsActive = ref(false);
+    const router = useRouter();
+    const itemsActive = ref(1);
     const refModelCouponsGuide = ref(null);
     const refModelResult = ref(null);
     const refModelExchange = ref(null);
+    const state = ref({
+      items: [
+        {
+          name: "1 x 0.99元乘车劵",
+          the: 100,
+          active: 1
+        },
+        {
+          name: "10 x 0.99元乘车劵",
+          the: 800,
+          active: 2
+        }
+      ]
+    })
 
-    function clickCouponsGuide (title) {
-      refModelCouponsGuide.value.handleOpen(title);
+
+    function clickCouponsGuide (type) {
+      if (type == 1) {
+        refModelCouponsGuide.value.handleOpen("可用城市");
+      } else {
+        router.push({
+          name: "Guide"
+        })
+      }
     }
 
-    function handleExchange (title) {
-      refModelExchange.value.handleOpen(title);
+    async function handleExchange (title) {
+      if (title) {
+        const { StatusMsg, StatusCode } = await addOrder();
+        if (StatusCode == 0) {
+
+          if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
+            window.ICBCUtil.browseExternalURL(StatusMsg);
+          } else {
+            window.location.href = StatusMsg;
+          }
+          
+        }
+      } else {
+        refModelExchange.value.handleOpen(title, state.value.items[itemsActive.value - 1]);
+      }
+
+
     }
 
     onMounted(() => {
@@ -110,6 +138,7 @@ export default {
     })
 
     return {
+      state,
       itemsActive,
       refModelCouponsGuide,
       refModelResult,

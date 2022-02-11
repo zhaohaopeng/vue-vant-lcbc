@@ -11,11 +11,11 @@
         <div class="title">{{ title }}</div>
         <div class="box">
           <div class="card">
-            <div class="title">10 x 0.99元乘车劵</div>
-            <div class="text">734积分</div>
+            <div class="title">{{ checkedItem.name }}</div>
+            <div class="text">{{ checkedItem.the }}积分</div>
           </div>
           <div class="input">
-            <van-stepper v-model="value" />
+            <van-stepper v-model="num" />
           </div>
         </div>
         <div class="box-1">
@@ -44,11 +44,14 @@ export default {
   setup () {
     const show = ref(false);
     const title = ref(null)
+    const checkedItem = ref(null);
+    const num = ref(1);
 
-    const handleOpen = (value) => {
+    const handleOpen = (value, item) => {
       title.value = value;
-      console.log(title.value, ":title.value");
+      checkedItem.value = item;
       show.value = true;
+      num.value = 1;
     };
 
     const handleClose = () => {
@@ -58,6 +61,8 @@ export default {
     return {
       show,
       title,
+      num,
+      checkedItem,
       handleOpen,
       handleClose,
     };

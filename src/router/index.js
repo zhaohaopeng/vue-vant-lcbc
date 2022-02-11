@@ -20,6 +20,14 @@ const routes = [{
     }
   },
   {
+    path: '/guide',
+    name: 'Guide',
+    component: () => import('@/view/guide'),
+    meta: {
+      title: '工行'
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/view/login'),
