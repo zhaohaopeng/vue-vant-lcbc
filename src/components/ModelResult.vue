@@ -54,7 +54,7 @@ export default {
   .container {
     width: 100%;
     height: 230px;
-    background: url('../assets/activity-1/bgd-1.png') no-repeat center;
+    background: url('../assets/ccq/bgd-1.png') no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
@@ -65,7 +65,7 @@ export default {
     .close {
       width: 14px;
       height: 14px;
-      background: url('../assets/activity-1/close.png') no-repeat center;
+      background: url('../assets/ccq/close.png') no-repeat center;
       background-size: 100% 100%;
       position: absolute;
       right: 6px;
@@ -75,7 +75,7 @@ export default {
       width: 64px;
       height: 64px;
       margin: 0 auto;
-      background: url('../assets/activity-1/success.png') no-repeat center;
+      background: url('../assets/ccq/success.png') no-repeat center;
       background-size: 100% 100%;
     }
     .text-1 {
@@ -93,7 +93,7 @@ export default {
       height: 36px;
       margin: 0 auto;
       margin-top: 15px;
-      background: url('../assets/activity-1/model-btn.png') no-repeat center;
+      background: url('../assets/ccq/model-btn.png') no-repeat center;
       background-size: 100% 100%;
       font-size: 13px;
       color: #474c87;

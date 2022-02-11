@@ -58,7 +58,7 @@ export default {
   .title {
     width: 112px;
     height: 30px;
-    background: url('../assets/activity-1/modal-title.png') no-repeat center;
+    background: url('../assets/ccq/modal-title.png') no-repeat center;
     background-size: 100% 100%;
     position: absolute;
     top: 14px;
@@ -73,7 +73,7 @@ export default {
   .container {
     width: 100%;
     height: 150px;
-    background: url('../assets/activity-1/bgd-4.png') no-repeat center;
+    background: url('../assets/ccq/bgd-4.png') no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
@@ -84,7 +84,7 @@ export default {
     .close {
       width: 14px;
       height: 14px;
-      background: url('../assets/activity-1/close.png') no-repeat center;
+      background: url('../assets/ccq/close.png') no-repeat center;
       background-size: 100% 100%;
       position: absolute;
       right: 6px;

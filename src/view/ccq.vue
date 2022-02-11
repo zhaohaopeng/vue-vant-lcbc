@@ -1,5 +1,9 @@
 <template>
   <div class="page">
+    <div class="pendant" @click="handleJump">
+      <img class="logo-ride" src="../assets/ccq/ride.png" />
+      <div>去乘车</div>
+    </div>
     <div class="header">
       <div class="text"></div>
     </div>
@@ -124,13 +128,19 @@ export default {
           } else {
             window.location.href = StatusMsg;
           }
-          
+
         }
       } else {
         refModelExchange.value.handleOpen(title, state.value.items[itemsActive.value - 1]);
       }
 
 
+    }
+
+    function handleJump () {
+      router.push({
+        name: "Ride"
+      });
     }
 
     onMounted(() => {
@@ -144,7 +154,8 @@ export default {
       refModelResult,
       refModelExchange,
       clickCouponsGuide,
-      handleExchange
+      handleExchange,
+      handleJump
     }
 
   }
@@ -156,16 +167,38 @@ export default {
   width: 100vw;
   min-height: 100vh;
   background-color: #49caff;
+
+  .pendant {
+    position: fixed;
+    width: 54px;
+    height: 54px;
+    top: 50%;
+    right: 6px;
+    margin-top: -27px;
+    background-color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    text-align: center;
+    z-index: 20;
+    color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    .logo-ride {
+      width: 22px;
+      height: 22px;
+      margin-top: 8px;
+    }
+  }
+
   .header {
     width: 100%;
     height: 260px;
-    background: url('../assets/activity-1/header.png') no-repeat center;
+    background: url('../assets/ccq/header.png') no-repeat center;
     background-size: 100% 100%;
     overflow: hidden;
     .text {
       width: 350px;
       height: 84px;
-      background: url('../assets/activity-1/header-text.png') no-repeat center;
+      background: url('../assets/ccq/header-text.png') no-repeat center;
       background-size: 100% 100%;
       margin-top: 44px;
     }
@@ -182,7 +215,7 @@ export default {
       .button {
         width: 168px;
         height: 100%;
-        background: url('../assets/activity-1/box-1-btn.png') no-repeat center;
+        background: url('../assets/ccq/box-1-btn.png') no-repeat center;
         background-size: 100% 100%;
         font-size: 14px;
         color: #ffffff;
@@ -193,7 +226,7 @@ export default {
     .box-2 {
       width: 100%;
       height: 214px;
-      background: url('../assets/activity-1/bgd-1.png') no-repeat center;
+      background: url('../assets/ccq/bgd-1.png') no-repeat center;
       background-size: 100% 100%;
       margin-top: 15px;
       .top {
@@ -232,7 +265,7 @@ export default {
         .card {
           width: 152px;
           height: 76px;
-          background: url('../assets/activity-1/card.png') no-repeat center;
+          background: url('../assets/ccq/card.png') no-repeat center;
           background-size: 100% 100%;
           font-size: 13px;
           color: #0d1824;
@@ -244,8 +277,7 @@ export default {
           }
         }
         .card.active {
-          background: url('../assets/activity-1/card-active.png') no-repeat
-            center;
+          background: url('../assets/ccq/card-active.png') no-repeat center;
           background-size: 100% 100%;
           color: #32755a;
         }
@@ -262,7 +294,7 @@ export default {
         .btn {
           width: 154px;
           height: 100%;
-          background: url('../assets/activity-1/box-2-btn.png') no-repeat center;
+          background: url('../assets/ccq/box-2-btn.png') no-repeat center;
           background-size: 100% 100%;
           text-align: center;
           line-height: 48px;
@@ -285,7 +317,7 @@ export default {
     .box-4 {
       width: 100%;
       height: 140px;
-      background: url('../assets/activity-1/bgd-3.png') no-repeat center;
+      background: url('../assets/ccq/bgd-3.png') no-repeat center;
       background-size: 100% 100%;
       box-sizing: border-box;
       padding: 20px;
@@ -297,14 +329,14 @@ export default {
         width: 100%;
         height: 74px;
         margin-top: 10px;
-        background: url('../assets/activity-1/active.png') no-repeat center;
+        background: url('../assets/ccq/active.png') no-repeat center;
         background-size: 100% 100%;
         position: relative;
 
         .btn {
           width: 106px;
           height: 30px;
-          background: url('../assets/activity-1/box-4-btn.png') no-repeat center;
+          background: url('../assets/ccq/box-4-btn.png') no-repeat center;
           background-size: 100% 100%;
           position: absolute;
           bottom: 6px;
@@ -316,7 +348,7 @@ export default {
       width: 100%;
       min-height: 400px;
       box-sizing: border-box;
-      background: url('../assets/activity-1/bgd-2.png') no-repeat center;
+      background: url('../assets/ccq/bgd-2.png') no-repeat center;
       background-size: 100% 100%;
       margin: 15px 0;
       padding: 20px;

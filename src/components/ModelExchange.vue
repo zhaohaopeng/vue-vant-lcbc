@@ -78,7 +78,7 @@ export default {
   .container {
     width: 100%;
     height: 290px;
-    background: url('../assets/activity-1/bgd-1.png') no-repeat center;
+    background: url('../assets/ccq/bgd-1.png') no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
@@ -89,7 +89,7 @@ export default {
     .close {
       width: 14px;
       height: 14px;
-      background: url('../assets/activity-1/close.png') no-repeat center;
+      background: url('../assets/ccq/close.png') no-repeat center;
       background-size: 100% 100%;
       position: absolute;
       right: 6px;
@@ -117,7 +117,7 @@ export default {
       .card {
         width: 152px;
         height: 76px;
-        background: url('../assets/activity-1/card-active.png') no-repeat center;
+        background: url('../assets/ccq/card-active.png') no-repeat center;
         background-size: 100% 100%;
         font-size: 13px;
         box-sizing: border-box;
@@ -156,11 +156,11 @@ export default {
       }
       .btn-1 {
         color: #fff;
-        background: url('../assets/activity-1/return.png') no-repeat center;
+        background: url('../assets/ccq/return.png') no-repeat center;
         background-size: 100% 100%;
       }
       .btn-2 {
-        background: url('../assets/activity-1/model-btn.png') no-repeat center;
+        background: url('../assets/ccq/model-btn.png') no-repeat center;
         background-size: 100% 100%;
       }
     }

@@ -13,10 +13,18 @@ NProgress.configure({
 
 const routes = [{
     path: '/',
-    name: 'Home',
-    component: () => import('@/view/home'),
+    name: 'Ccq',
+    component: () => import('@/view/ccq'),
     meta: {
-      title: '工行'
+      title: '乘车券活动'
+    }
+  },
+  {
+    path: '/txsp',
+    name: 'Txsp',
+    component: () => import('@/view/txsp'),
+    meta: {
+      title: '腾讯视频'
     }
   },
   {
@@ -24,8 +32,13 @@ const routes = [{
     name: 'Guide',
     component: () => import('@/view/guide'),
     meta: {
-      title: '工行'
+      title: '用卷指引'
     }
+  },
+  {
+    path: '/ride',
+    name: 'Ride',
+    component: () => import('@/view/ride'),
   },
   {
     path: '/login',
