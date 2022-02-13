@@ -173,11 +173,12 @@ export default {
       } else {
         refModelExchange.value.handleOpen(
           type,
-          commodity.value[itemsActive.value]
+          { ...commodity.value[itemsActive.value] },
+          activityId,
+          userInfo.value.id
         );
       }
     }
-734
     function handleJump() {
       router.push({
         name: "Ride",

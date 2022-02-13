@@ -12,10 +12,12 @@
         <div class="box">
           <div class="card">
             <div class="title">{{ checkedItem.name }}</div>
-            <div class="text">{{ checkedItem.integral }}积分</div>
+            <div class="text">
+              {{ checkedItem.integral * checkedItem.num }}积分
+            </div>
           </div>
           <div class="input">
-            <van-stepper v-model="num" />
+            <van-stepper v-model="checkedItem.num" />
           </div>
         </div>
         <div class="box-1">
@@ -23,8 +25,8 @@
           <div>一经兑换，不能退还</div>
         </div>
         <div class="button">
-          <div class="btn btn-1">返回</div>
-          <div class="btn btn-2">兑换</div>
+          <div class="btn btn-1" @click="handleClose">返回</div>
+          <div class="btn btn-2" @click="handleConfirmSava">兑换</div>
         </div>
       </div>
     </div>
@@ -34,6 +36,7 @@
 <script>
 import { ref } from "vue";
 import { Icon, Dialog, Stepper } from "vant";
+import { createOrder } from "@/api/index";
 export default {
   name: "ModelApplyLimit",
   components: {
@@ -46,16 +49,38 @@ export default {
     const title = ref(null);
     const checkedItem = ref(null);
     const num = ref(1);
+    let activityid, uid, cardType;
 
-    const handleOpen = (type, item) => {
+    const handleOpen = (type, item, aid, _uid) => {
+      cardType = type;
       title.value = type == 1 ? "储蓄卡乘车劵兑换" : "信用卡乘车劵兑换";
       checkedItem.value = item;
       show.value = true;
       num.value = 1;
+      activityid = aid;
+      uid = _uid;
     };
 
     const handleClose = () => {
       show.value = false;
+    };
+
+    const handleConfirmSava = async () => {
+      const params = {
+        activityid,
+        uid,
+        commodityid: checkedItem.value.id,
+        cardType,
+      };
+      console.log(params, ":params");
+      const { StatusMsg, StatusCode } = await createOrder(params);
+      if (StatusCode == 0) {
+        if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
+          window.ICBCUtil.browseExternalURL(StatusMsg);
+        } else {
+          window.location.href = StatusMsg;
+        }
+      }
     };
 
     return {
@@ -65,6 +90,7 @@ export default {
       checkedItem,
       handleOpen,
       handleClose,
+      handleConfirmSava,
     };
   },
 };

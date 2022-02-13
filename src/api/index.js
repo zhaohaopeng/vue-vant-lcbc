@@ -34,3 +34,10 @@ export const queryByIdActivity = (data) => request({
   method: 'post',
   data
 })
+
+// 创建订单
+export const createOrder = (data) => request({
+  url: '/v1/order/createOrder',
+  method: 'post',
+  data
+})
