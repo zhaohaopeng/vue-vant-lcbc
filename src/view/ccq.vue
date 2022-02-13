@@ -15,34 +15,29 @@
       <div class="box-2">
         <div class="top">
           <div class="text-1">积分兑换乘车劵</div>
-          <div class="text-2">您的积分：666</div>
         </div>
         <div class="center">
           <div
-            v-for="item in state.items"
-            :key="item.active"
+            v-for="(item, index) in commodity"
+            :key="item.id"
             class="card"
-            :class="{ active: itemsActive == item.active }"
-            @click="itemsActive = item.active"
+            :class="{ active: itemsActive == index }"
+            @click="itemsActive = index"
           >
             <div class="title">{{ item.name }}</div>
-            <div class="text">{{ item.the }}积分</div>
+            <div class="text">{{ item.integral }}积分</div>
           </div>
         </div>
         <div class="bottom">
-          <div class="btn" @click="handleExchange('储蓄卡乘车劵兑换')">
-            兑换储蓄卡乘车劵
-          </div>
-          <div class="btn" @click="handleExchange('信用卡乘车劵兑换')">
-            兑换信用卡乘车劵
-          </div>
+          <div class="btn" @click="handleExchange(1)">兑换储蓄卡乘车劵</div>
+          <div class="btn" @click="handleExchange(2)">兑换信用卡乘车劵</div>
         </div>
       </div>
       <div class="box-3">可在微信-我-卡包-劵和礼品卡处查看已领取的乘车劵</div>
       <div class="box-4">
         <div class="title">特色活动</div>
         <div class="center">
-          <div class="btn"></div>
+          <div class="btn" @click="handleTowWelfare"></div>
         </div>
       </div>
       <div class="box-5">
@@ -74,91 +69,146 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import ModelCouponsGuide from '../components/ModelCouponsGuide'
-import ModelResult from '../components/ModelResult'
-import ModelExchange from '../components/ModelExchange'
-import { addOrder } from '@/api/index'
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import ModelCouponsGuide from "../components/ModelCouponsGuide";
+import ModelResult from "../components/ModelResult";
+import ModelExchange from "../components/ModelExchange";
+import {
+  addOrder,
+  createUser,
+  queryUserInfo,
+  queryByIdActivity,
+  queryCommodity,
+} from "@/api/index";
+import { Notify } from "vant";
 export default {
   components: {
     ModelCouponsGuide,
     ModelResult,
     ModelExchange,
   },
-  setup () {
+  setup() {
+    const activityId = 1;
+    const account = "13522293962";
     const router = useRouter();
-    const itemsActive = ref(1);
+    const itemsActive = ref(0);
     const refModelCouponsGuide = ref(null);
     const refModelResult = ref(null);
     const refModelExchange = ref(null);
-    const state = ref({
-      items: [
-        {
-          name: "1 x 0.99元乘车劵",
-          the: 100,
-          active: 1
-        },
-        {
-          name: "10 x 0.99元乘车劵",
-          the: 800,
-          active: 2
-        }
-      ]
-    })
+    const userInfo = ref(null);
+    const activity = ref(null);
+    const commodity = ref(null);
 
+    // 查询活动
+    const handleQueryByIdActivity = async () => {
+      try {
+        const res = await queryByIdActivity({ activityId });
+        activity.value = { ...res };
+        console.log(activity.value, ":activity.value");
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
 
-    function clickCouponsGuide (type) {
+    // 获取商品信息
+    const handleQueryCommodity = async () => {
+      try {
+        const res = await queryCommodity({ type: 1 });
+        commodity.value = res;
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+
+    // 获取初始化数据
+    function init() {
+      handleQueryByIdActivity();
+      handleQueryCommodity();
+    }
+
+    // 查询用户
+    const handleQueryUserInfo = async (params) => {
+      try {
+        const res = await queryUserInfo(params);
+        userInfo.value = res;
+        init();
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+
+    // 创建账户
+    async function handleCreateUser() {
+      try {
+        await createUser({ account });
+        handleQueryUserInfo({ account });
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    }
+
+    handleCreateUser();
+
+    function clickCouponsGuide(type) {
       if (type == 1) {
         refModelCouponsGuide.value.handleOpen("可用城市");
       } else {
         router.push({
-          name: "Guide"
-        })
+          name: "Guide",
+        });
       }
     }
 
-    async function handleExchange (title) {
-      if (title) {
+    async function handleExchange(type) {
+      if (!type) {
         const { StatusMsg, StatusCode } = await addOrder();
         if (StatusCode == 0) {
-
           if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
             window.ICBCUtil.browseExternalURL(StatusMsg);
           } else {
             window.location.href = StatusMsg;
           }
-
         }
       } else {
-        refModelExchange.value.handleOpen(title, state.value.items[itemsActive.value - 1]);
+        refModelExchange.value.handleOpen(
+          type,
+          commodity.value[itemsActive.value]
+        );
       }
-
-
+    }
+734
+    function handleJump() {
+      router.push({
+        name: "Ride",
+      });
     }
 
-    function handleJump () {
-      router.push({
-        name: "Ride"
-      });
+    function handleTowWelfare() {
+      const url = "http://www.sz.icbc.com.cn/t/SWPTL9";
+      if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
+        window.ICBCUtil.browseExternalURL(url);
+      } else {
+        window.location.href = url;
+      }
     }
 
     onMounted(() => {
       // refModelResult.value.handleOpen();
-    })
+    });
 
     return {
-      state,
+      commodity,
       itemsActive,
       refModelCouponsGuide,
       refModelResult,
       refModelExchange,
       clickCouponsGuide,
       handleExchange,
-      handleJump
-    }
-
-  }
+      handleJump,
+      handleTowWelfare,
+    };
+  },
 };
 </script>
 
@@ -192,13 +242,13 @@ export default {
   .header {
     width: 100%;
     height: 260px;
-    background: url('../assets/ccq/header.png') no-repeat center;
+    background: url("../assets/ccq/header.png") no-repeat center;
     background-size: 100% 100%;
     overflow: hidden;
     .text {
       width: 350px;
       height: 84px;
-      background: url('../assets/ccq/header-text.png') no-repeat center;
+      background: url("../assets/ccq/header-text.png") no-repeat center;
       background-size: 100% 100%;
       margin-top: 44px;
     }
@@ -215,7 +265,7 @@ export default {
       .button {
         width: 168px;
         height: 100%;
-        background: url('../assets/ccq/box-1-btn.png') no-repeat center;
+        background: url("../assets/ccq/box-1-btn.png") no-repeat center;
         background-size: 100% 100%;
         font-size: 14px;
         color: #ffffff;
@@ -226,7 +276,7 @@ export default {
     .box-2 {
       width: 100%;
       height: 214px;
-      background: url('../assets/ccq/bgd-1.png') no-repeat center;
+      background: url("../assets/ccq/bgd-1.png") no-repeat center;
       background-size: 100% 100%;
       margin-top: 15px;
       .top {
@@ -265,7 +315,7 @@ export default {
         .card {
           width: 152px;
           height: 76px;
-          background: url('../assets/ccq/card.png') no-repeat center;
+          background: url("../assets/ccq/card.png") no-repeat center;
           background-size: 100% 100%;
           font-size: 13px;
           color: #0d1824;
@@ -277,7 +327,7 @@ export default {
           }
         }
         .card.active {
-          background: url('../assets/ccq/card-active.png') no-repeat center;
+          background: url("../assets/ccq/card-active.png") no-repeat center;
           background-size: 100% 100%;
           color: #32755a;
         }
@@ -294,7 +344,7 @@ export default {
         .btn {
           width: 154px;
           height: 100%;
-          background: url('../assets/ccq/box-2-btn.png') no-repeat center;
+          background: url("../assets/ccq/box-2-btn.png") no-repeat center;
           background-size: 100% 100%;
           text-align: center;
           line-height: 48px;
@@ -317,7 +367,7 @@ export default {
     .box-4 {
       width: 100%;
       height: 140px;
-      background: url('../assets/ccq/bgd-3.png') no-repeat center;
+      background: url("../assets/ccq/bgd-3.png") no-repeat center;
       background-size: 100% 100%;
       box-sizing: border-box;
       padding: 20px;
@@ -329,14 +379,14 @@ export default {
         width: 100%;
         height: 74px;
         margin-top: 10px;
-        background: url('../assets/ccq/active.png') no-repeat center;
+        background: url("../assets/ccq/active.png") no-repeat center;
         background-size: 100% 100%;
         position: relative;
 
         .btn {
           width: 106px;
           height: 30px;
-          background: url('../assets/ccq/box-4-btn.png') no-repeat center;
+          background: url("../assets/ccq/box-4-btn.png") no-repeat center;
           background-size: 100% 100%;
           position: absolute;
           bottom: 6px;
@@ -348,7 +398,7 @@ export default {
       width: 100%;
       min-height: 400px;
       box-sizing: border-box;
-      background: url('../assets/ccq/bgd-2.png') no-repeat center;
+      background: url("../assets/ccq/bgd-2.png") no-repeat center;
       background-size: 100% 100%;
       margin: 15px 0;
       padding: 20px;

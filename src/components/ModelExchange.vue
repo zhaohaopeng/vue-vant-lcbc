@@ -12,7 +12,7 @@
         <div class="box">
           <div class="card">
             <div class="title">{{ checkedItem.name }}</div>
-            <div class="text">{{ checkedItem.the }}积分</div>
+            <div class="text">{{ checkedItem.integral }}积分</div>
           </div>
           <div class="input">
             <van-stepper v-model="num" />
@@ -39,16 +39,16 @@ export default {
   components: {
     [Icon.name]: Icon,
     [Dialog.Component.name]: Dialog.Component,
-    [Stepper.name]: Stepper
+    [Stepper.name]: Stepper,
   },
-  setup () {
+  setup() {
     const show = ref(false);
-    const title = ref(null)
+    const title = ref(null);
     const checkedItem = ref(null);
     const num = ref(1);
 
-    const handleOpen = (value, item) => {
-      title.value = value;
+    const handleOpen = (type, item) => {
+      title.value = type == 1 ? "储蓄卡乘车劵兑换" : "信用卡乘车劵兑换";
       checkedItem.value = item;
       show.value = true;
       num.value = 1;
@@ -78,7 +78,7 @@ export default {
   .container {
     width: 100%;
     height: 290px;
-    background: url('../assets/ccq/bgd-1.png') no-repeat center;
+    background: url("../assets/ccq/bgd-1.png") no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
@@ -89,7 +89,7 @@ export default {
     .close {
       width: 14px;
       height: 14px;
-      background: url('../assets/ccq/close.png') no-repeat center;
+      background: url("../assets/ccq/close.png") no-repeat center;
       background-size: 100% 100%;
       position: absolute;
       right: 6px;
@@ -117,7 +117,7 @@ export default {
       .card {
         width: 152px;
         height: 76px;
-        background: url('../assets/ccq/card-active.png') no-repeat center;
+        background: url("../assets/ccq/card-active.png") no-repeat center;
         background-size: 100% 100%;
         font-size: 13px;
         box-sizing: border-box;
@@ -156,11 +156,11 @@ export default {
       }
       .btn-1 {
         color: #fff;
-        background: url('../assets/ccq/return.png') no-repeat center;
+        background: url("../assets/ccq/return.png") no-repeat center;
         background-size: 100% 100%;
       }
       .btn-2 {
-        background: url('../assets/ccq/model-btn.png') no-repeat center;
+        background: url("../assets/ccq/model-btn.png") no-repeat center;
         background-size: 100% 100%;
       }
     }

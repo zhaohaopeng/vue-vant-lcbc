@@ -4,6 +4,18 @@
   </div>
 </template>
 
+
+<script>
+export default {
+  setup() {
+    const activityid = 1;
+    return {
+      activityid,
+    };
+  },
+};
+</script>
+
 <style lang="less" scoped>
 .page {
   width: 100%;
@@ -12,7 +24,7 @@
   .header {
     width: 100%;
     height: 208px;
-    background: url('../assets/txsp/header.png') no-repeat center;
+    background: url("../assets/txsp/header.png") no-repeat center;
     background-size: 100% 100%;
   }
 }
