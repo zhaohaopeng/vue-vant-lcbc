@@ -28,6 +28,22 @@ const routes = [{
     }
   },
   {
+    path: '/txintegral',
+    name: 'Txintegral',
+    component: () => import('@/view/txintegral'),
+    meta: {
+      title: '腾讯视频'
+    }
+  },
+  {
+    path: '/txvip',
+    name: 'Txvip',
+    component: () => import('@/view/txvip'),
+    meta: {
+      title: '腾讯视频'
+    }
+  },
+  {
     path: '/guide',
     name: 'Guide',
     component: () => import('@/view/guide'),

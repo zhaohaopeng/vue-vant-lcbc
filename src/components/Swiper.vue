@@ -3,16 +3,13 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img src="../assets/0.jpg" alt="" />
+          <img src="../assets/txsp/banner-1.png" alt="" />
         </div>
         <div class="swiper-slide">
-          <img src="../assets/1.jpg" alt="" />
+          <img src="../assets/txsp/banner-2.png" alt="" />
         </div>
         <div class="swiper-slide">
-          <img src="../assets/2.jpg" alt="" />
-        </div>
-        <div class="swiper-slide">
-          <img src="../assets/3.jpg" alt="" />
+          <img src="../assets/txsp/banner-3.png" alt="" />
         </div>
       </div>
       <!-- Add Pagination -->
@@ -26,22 +23,22 @@ import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
 import { onMounted } from "vue";
 export default {
-  setup () {
+  setup() {
     const initSwiper = () => {
       new Swiper(".swiper-container", {
         loop: true,
         slidesPerView: 1.3,
         centeredSlides: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true
-        },
+        // pagination: {
+        //   el: ".swiper-pagination",
+        //   clickable: true,
+        // },
         on: {
           click: function (e) {
             if (!e || !e.target) return;
             console.log(e.target, ":v");
-          }
-        }
+          },
+        },
       });
     };
 
@@ -49,14 +46,13 @@ export default {
       initSwiper();
     });
   },
-}
+};
 </script>
 
 <style lang="less" scoped>
 .swiper {
   width: 100%;
   height: 200px;
-  margin-top: 50px;
 }
 
 .swiper-container {
