@@ -70,6 +70,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { Dialog } from "vant";
 import { useRouter } from "vue-router";
 import ModelCouponsGuide from "../components/ModelCouponsGuide";
 import ModelResult from "../components/ModelResult";
@@ -87,6 +88,7 @@ export default {
     ModelCouponsGuide,
     ModelResult,
     ModelExchange,
+    [Dialog.Component.name]: Dialog.Component,
   },
   setup() {
     const activityId = 1;
@@ -195,6 +197,12 @@ export default {
     }
 
     onMounted(() => {
+      console.log(window.location.href, ":window.location.url");
+      Dialog.alert({
+        message: window.location.href,
+        confirmButtonText: "我知道了",
+        confirmButtonColor: "rgba(0,0,0,0.6)",
+      });
       // refModelResult.value.handleOpen();
     });
 
