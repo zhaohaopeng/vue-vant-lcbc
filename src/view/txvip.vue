@@ -87,7 +87,10 @@
         </p>
       </div>
     </div>
-    <div class="recharge"></div>
+    <div class="recharge">
+      <div class="recharge-btn-1"></div>
+      <div class="recharge-btn-2"></div>
+    </div>
   </div>
 </template>
 
@@ -99,7 +102,7 @@ export default {
     [Col.name]: Col,
     [Row.name]: Row,
   },
-  setup() {},
+  setup () { },
 };
 </script>
 
@@ -108,7 +111,7 @@ export default {
   width: 100%;
   min-height: 100vh;
   background: #000;
-  background: url("../assets/txsp/bgd.png") repeat-y center;
+  background: url('../assets/txsp/bgd.png') repeat-y center;
   background-size: 100% 100%;
   .black-box {
     width: 100%;
@@ -126,7 +129,7 @@ export default {
     .box {
       width: 100%;
       height: 56px;
-      background: url("../assets/txsp/box.png") repeat-y center;
+      background: url('../assets/txsp/box.png') repeat-y center;
       background-size: 100% 100%;
       box-sizing: border-box;
       padding: 10px 20px;
@@ -134,7 +137,7 @@ export default {
       .btn-1 {
         width: 112px;
         height: 28px;
-        background: url("../assets/txsp/btn-1.png") no-repeat center;
+        background: url('../assets/txsp/btn-1.png') no-repeat center;
         background-size: 100% 100%;
         position: absolute;
         right: 20px;
@@ -160,7 +163,7 @@ export default {
           width: 46px;
           height: 24px;
           margin-left: 10px;
-          background: url("../assets/txsp/discount.png") no-repeat center;
+          background: url('../assets/txsp/discount.png') no-repeat center;
           background-size: 100% 100%;
           text-align: center;
           line-height: 24px;
@@ -179,7 +182,7 @@ export default {
       box-sizing: border-box;
       padding: 15px;
       .input {
-        background: url("../assets/txsp/input.png") no-repeat center;
+        background: url('../assets/txsp/input.png') no-repeat center;
         background-size: 100% 100%;
       }
     }
@@ -231,10 +234,15 @@ export default {
     width: 100%;
     height: 68px;
     margin-top: 30px;
-    background: url("../assets/txsp/recharge-bgd.png") no-repeat center;
+    background: url('../assets/txsp/recharge-bgd.png') no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     color: #f8ede1;
+    display: flex;
+    .recharge-btn-1 {
+      width: 30%;
+      height: 50px;
+    }
   }
 }
 

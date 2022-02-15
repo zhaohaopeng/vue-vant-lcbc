@@ -123,19 +123,29 @@
         5.如有疑问，请咨询深圳市盛宇信达企业管理咨询有限公司,客服电话:400001598(人工服务时间:9:00-18:00)。
       </p>
     </div>
+    <ModelTxSuccess ref="refModelTxSuccess" />
   </div>
 </template>
 
 
 <script>
 import Swiper from "../components/Swiper.vue";
+import ModelTxSuccess from '../components/ModelTxSuccess.vue'
 import { Swipe, SwipeItem } from "vant";
+import { ref, onMounted } from 'vue'
 export default {
-  components: { Swiper, [Swipe.name]: Swipe, [SwipeItem.name]: SwipeItem },
-  setup() {
+  components: { Swiper, [Swipe.name]: Swipe, [SwipeItem.name]: SwipeItem, ModelTxSuccess },
+  setup () {
     const activityid = 2;
+    const refModelTxSuccess = ref(null);
+
+    onMounted(() => {
+      refModelTxSuccess.value.handleOpen();
+    })
+
     return {
       activityid,
+      refModelTxSuccess
     };
   },
 };
@@ -146,12 +156,12 @@ export default {
   width: 100%;
   min-height: 100vh;
   background: #000;
-  background: url("../assets/txsp/bgd.png") repeat-y center;
+  background: url('../assets/txsp/bgd.png') repeat-y center;
   background-size: 100% 100%;
   .header {
     width: 100%;
     height: 164px;
-    background: url("../assets/txsp/header.png") no-repeat center;
+    background: url('../assets/txsp/header.png') no-repeat center;
     background-size: 100% 100%;
     overflow: hidden;
     .logo {
@@ -159,7 +169,7 @@ export default {
       height: 28px;
       margin: 0 auto;
       margin-top: 30px;
-      background: url("../assets/txsp/box-1.png") no-repeat center;
+      background: url('../assets/txsp/box-1.png') no-repeat center;
       background-size: 100% 100%;
       display: flex;
       justify-content: center;
@@ -168,7 +178,7 @@ export default {
       .tx-logo {
         width: 98px;
         height: 18px;
-        background: url("../assets/txsp/tx-logo.png") no-repeat center;
+        background: url('../assets/txsp/tx-logo.png') no-repeat center;
         background-size: 100% 100%;
         margin-right: 10px;
       }
@@ -176,7 +186,7 @@ export default {
       .gh-logo {
         width: 105px;
         height: 13px;
-        background: url("../assets/txsp/gh-logo.png") no-repeat center;
+        background: url('../assets/txsp/gh-logo.png') no-repeat center;
         background-size: 100% 100%;
       }
     }
@@ -184,7 +194,7 @@ export default {
     .title {
       width: 258px;
       height: 36px;
-      background: url("../assets/txsp/header-title.png") no-repeat center;
+      background: url('../assets/txsp/header-title.png') no-repeat center;
       background-size: 100% 100%;
       margin: 0 auto;
       margin-top: 16px;
@@ -227,7 +237,7 @@ export default {
         margin-top: 10px;
         width: 100%;
         height: 56px;
-        background: url("../assets/txsp/card.png") no-repeat center;
+        background: url('../assets/txsp/card.png') no-repeat center;
         background-size: 100% 100%;
         box-sizing: border-box;
         padding: 10px 15px;
@@ -243,7 +253,7 @@ export default {
           .discount {
             width: 46px;
             height: 24px;
-            background: url("../assets/txsp/discount.png") no-repeat center;
+            background: url('../assets/txsp/discount.png') no-repeat center;
             background-size: 100% 100%;
             text-align: center;
             line-height: 24px;
@@ -266,7 +276,7 @@ export default {
           line-height: 20px;
           color: #3a190e;
           font-size: 12px;
-          background: url("../assets/txsp/exchange.png") no-repeat center;
+          background: url('../assets/txsp/exchange.png') no-repeat center;
           background-size: 100% 100%;
         }
       }
@@ -281,7 +291,7 @@ export default {
       .recharge {
         width: 106px;
         height: 66px;
-        background: url("../assets/txsp/recharge.png") no-repeat center;
+        background: url('../assets/txsp/recharge.png') no-repeat center;
         background-size: 100% 100%;
         position: relative;
 
@@ -335,7 +345,7 @@ export default {
       width: 100%;
       height: 111px;
       margin-top: 10px;
-      background: url("../assets/txsp/welfare.png") no-repeat center;
+      background: url('../assets/txsp/welfare.png') no-repeat center;
       background-size: 100% 100%;
       position: relative;
       .title {
@@ -349,7 +359,7 @@ export default {
       .see {
         width: 70px;
         height: 26px;
-        background: url("../assets/txsp/see.png") no-repeat center;
+        background: url('../assets/txsp/see.png') no-repeat center;
         background-size: 100% 100%;
         position: absolute;
         bottom: 26px;

@@ -71,16 +71,27 @@ const router = createRouter({
   routes,
 })
 
+
+import {
+  getQueryVariable
+} from '../utils/index'
+
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  const {
-    title
-  } = to.meta;
-  if (title) {
-    document.title = title;
+  const areaName = getQueryVariable('areaName');
+  if (areaName) {
+    const {
+      title
+    } = to.meta;
+    if (title) {
+      document.title = title;
+    }
+    next();
+    NProgress.done()
+  } else {
+    next();
   }
-  next();
-  NProgress.done()
+
 })
 
 router.afterEach(() => {
