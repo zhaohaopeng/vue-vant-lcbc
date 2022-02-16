@@ -5,6 +5,13 @@ export const addOrder = () => request({
   method: 'get',
 })
 
+// 获取账户信息
+export const queryBankUserInfo = (data) => request({
+  url: '/v1/oath/queryBankUserInfo',
+  method: 'post',
+  data
+})
+
 // 查询商品信息
 
 export const queryCommodity = (data) => request({
@@ -38,6 +45,13 @@ export const queryByIdActivity = (data) => request({
 // 创建订单
 export const createOrder = (data) => request({
   url: '/v1/order/createOrder',
+  method: 'post',
+  data
+})
+
+// 查询指定人员订单信息
+export const queryOrderInfo = (data) => request({
+  url: '/v1/order/queryOrderInfo',
   method: 'post',
   data
 })

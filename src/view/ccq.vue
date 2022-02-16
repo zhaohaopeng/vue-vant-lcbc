@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { Dialog } from "vant";
 import { useRouter } from "vue-router";
 import ModelCouponsGuide from "../components/ModelCouponsGuide";
@@ -81,8 +81,10 @@ import {
   queryUserInfo,
   queryByIdActivity,
   queryCommodity,
+  queryOrderInfo,
 } from "@/api/index";
 import { Notify } from "vant";
+import store from "@/store";
 export default {
   components: {
     ModelCouponsGuide,
@@ -92,7 +94,7 @@ export default {
   },
   setup() {
     const activityId = 1;
-    const account = "13522293962";
+    const account = store.state.account;
     const router = useRouter();
     const itemsActive = ref(0);
     const refModelCouponsGuide = ref(null);
@@ -101,17 +103,18 @@ export default {
     const userInfo = ref(null);
     const activity = ref(null);
     const commodity = ref(null);
+    const userOrderInfo = ref({});
 
     // 查询活动
     const handleQueryByIdActivity = async () => {
       try {
         const res = await queryByIdActivity({ activityId });
         activity.value = { ...res };
-        console.log(activity.value, ":activity.value");
       } catch (err) {
         Notify({ type: "warning", message: err });
       }
     };
+    handleQueryByIdActivity();
 
     // 获取商品信息
     const handleQueryCommodity = async () => {
@@ -125,7 +128,7 @@ export default {
 
     // 获取初始化数据
     function init() {
-      handleQueryByIdActivity();
+      handleQueryOrderInfo();
       handleQueryCommodity();
     }
 
@@ -134,6 +137,7 @@ export default {
       try {
         const res = await queryUserInfo(params);
         userInfo.value = res;
+
         init();
       } catch (err) {
         Notify({ type: "warning", message: err });
@@ -143,13 +147,16 @@ export default {
     // 创建账户
     async function handleCreateUser() {
       try {
-        await createUser({ account });
-        handleQueryUserInfo({ account });
+        if (account) {
+          await createUser({ account });
+          handleQueryUserInfo({ account });
+        } else {
+          Notify({ type: "warning", message: "手机号为空" });
+        }
       } catch (err) {
         Notify({ type: "warning", message: err });
       }
     }
-
     handleCreateUser();
 
     function clickCouponsGuide(type) {
@@ -181,6 +188,7 @@ export default {
         );
       }
     }
+
     function handleJump() {
       router.push({
         name: "Ride",
@@ -196,15 +204,28 @@ export default {
       }
     }
 
-    onMounted(() => {
-      console.log(window.location.href, ":window.location.url");
-      Dialog.alert({
-        message: window.location.href,
-        confirmButtonText: "我知道了",
-        confirmButtonColor: "rgba(0,0,0,0.6)",
-      });
-      // refModelResult.value.handleOpen();
-    });
+    // 查询指定人员订单信息
+    const handleQueryOrderInfo = async () => {
+      try {
+        const res = await queryOrderInfo({
+          uid: userInfo.value.id,
+          activityid: activityId,
+        });
+        userOrderInfo.value = res || {};
+        if (
+          userOrderInfo.value &&
+          userOrderInfo.value.orderstate &&
+          userOrderInfo.value.orderstate == "1"
+        ) {
+          refModelResult.value.handleOpen({
+            aid: activityId,
+            uid: userInfo.value.id,
+          });
+        }
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
 
     return {
       commodity,

@@ -1,7 +1,6 @@
 import {
   createRouter,
   createWebHashHistory,
-  // createWebHistory
 } from 'vue-router'
 
 import NProgress from 'nprogress' // progress bar
@@ -71,27 +70,53 @@ const router = createRouter({
   routes,
 })
 
-
+import store from '@/store'
 import {
-  getQueryVariable
-} from '../utils/index'
-
-router.beforeEach((to, from, next) => {
+  Notify
+} from 'vant'
+import {
+  queryBankUserInfo
+} from '@/api'
+router.beforeEach(async (to, from, next) => {
   NProgress.start();
-  const areaName = getQueryVariable('areaName');
-  if (areaName) {
-    const {
-      title
-    } = to.meta;
-    if (title) {
-      document.title = title;
-    }
-    next();
-    NProgress.done()
-  } else {
-    next();
+  const {
+    title
+  } = to.meta;
+  if (title) {
+    document.title = title;
   }
 
+  if (store.state.account) {
+    next();
+  } else {
+    const {
+      areaName,
+      key,
+      xml
+    } = to.query;
+    if (areaName && xml && key) {
+      try {
+        const res = await queryBankUserInfo({
+          areaName,
+          key,
+          xml
+        })
+        if (res.StatusMsg == 'success') {
+          store.commit('setopenid', res.openID);
+          store.commit('setAccount', res.phoneNumber);
+          store.commit('setUserinfo', res);
+          next();
+        }
+      } catch {
+        Notify({
+          type: "warning",
+          message: "未获取到用户信息"
+        });
+      }
+    } else {
+      next();
+    }
+  }
 })
 
 router.afterEach(() => {
