@@ -71,6 +71,7 @@ export default {
         uid,
         commodityid: checkedItem.value.id,
         cardType,
+        num:checkedItem.value.num
       };
       console.log(params, ":params");
       const { StatusMsg, StatusCode } = await createOrder(params);

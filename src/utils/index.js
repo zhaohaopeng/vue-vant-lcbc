@@ -9,3 +9,24 @@ export function getQueryVariable(variable) {
   }
   return (null);
 }
+
+
+export function getQueryParam(url) {
+  const str = url.split("?")[1];
+  const vars = str.split('&');
+  let obj = {};
+  vars.forEach(item => {
+    var key = item.substr(0, item.indexOf("="));
+    var val = item.substr(item.indexOf("=") + 1)
+    obj[key] = val;
+  })
+  return obj
+}
+
+
+
+export function isChinese(temp) {
+  var re = /[^\u4E00-\u9FA5]/;
+  if (re.test(temp)) return false;
+  return true;
+}
