@@ -1,5 +1,11 @@
 import request from "@/utils/request";
 
+
+export const queryOrderParam = () => request({
+  url: '/v1/icbc/queryOrderParam',
+  method: 'get',
+})
+
 export const addOrder = () => request({
   url: '/v1/icbc/addOrder',
   method: 'get',

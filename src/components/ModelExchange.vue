@@ -35,14 +35,18 @@
 
 <script>
 import { ref } from "vue";
-import { Icon, Dialog, Stepper } from "vant";
-import { createOrder } from "@/api/index";
+import { Icon, Dialog, Stepper, Notify } from "vant";
+import {
+  // createOrder,
+  queryOrderParam,
+} from "@/api/index";
 export default {
   name: "ModelApplyLimit",
   components: {
     [Icon.name]: Icon,
     [Dialog.Component.name]: Dialog.Component,
     [Stepper.name]: Stepper,
+    [Notify.name]: Notify,
   },
   setup() {
     const show = ref(false);
@@ -71,17 +75,33 @@ export default {
         uid,
         commodityid: checkedItem.value.id,
         cardType,
-        num:checkedItem.value.num
+        num: checkedItem.value.num,
       };
       console.log(params, ":params");
-      const { StatusMsg, StatusCode } = await createOrder(params);
+      const { StatusCode, merCert, merSignMsg, tranData } =
+        await queryOrderParam();
       if (StatusCode == 0) {
-        if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
-          window.ICBCUtil.browseExternalURL(StatusMsg);
+        if (window.ICBCUtil) {
+          window.ICBCUtil.submitOrder({
+            interfaceName: "ICBC_WAPB_B2C",
+            interfaceVersion: "1.0.0.6",
+            tranData,
+            merSignMsg,
+            merCert,
+          });
         } else {
-          window.location.href = StatusMsg;
+          Notify({ type: "warning", message: `ICBCUtil为空` });
         }
       }
+
+      // const { StatusMsg, StatusCode } = await createOrder(params);
+      // if (StatusCode == 0) {
+      //   if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
+      //     window.ICBCUtil.browseExternalURL(StatusMsg);
+      //   } else {
+      //     window.location.href = StatusMsg;
+      //   }
+      // }
     };
 
     return {

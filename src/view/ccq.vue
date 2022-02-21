@@ -137,7 +137,6 @@ export default {
       try {
         const res = await queryUserInfo(params);
         userInfo.value = res;
-
         init();
       } catch (err) {
         Notify({ type: "warning", message: err });

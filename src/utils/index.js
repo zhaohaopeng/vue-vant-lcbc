@@ -10,7 +10,6 @@ export function getQueryVariable(variable) {
   return (null);
 }
 
-
 export function getQueryParam(url) {
   const str = url.split("?")[1];
   const vars = str.split('&');
@@ -22,8 +21,6 @@ export function getQueryParam(url) {
   })
   return obj
 }
-
-
 
 export function isChinese(temp) {
   var re = /[^\u4E00-\u9FA5]/;
