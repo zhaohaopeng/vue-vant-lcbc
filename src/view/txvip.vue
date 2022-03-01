@@ -3,16 +3,21 @@
     <div class="header">
       <img class="header-img" src="../assets/txsp/txvip-header.png" alt="" />
       <div class="box">
-        <div class="btn-1">腾讯视频会员月卡</div>
+        <div class="btn-1">{{ commodity.name }}</div>
         <div class="top">
-          <div class="integral"><span>17616</span> 积分</div>
-          <div class="discount">8折</div>
+          <div class="integral">
+            <span>{{ commodity.integral }}</span> 积分
+          </div>
+          <div class="discount">{{ commodity.discount }}折</div>
         </div>
-        <div class="bottom">原价30元</div>
+        <div class="bottom">原价{{ price }}元</div>
       </div>
       <div class="box-1">
         <div class="input">
-          <van-field v-model="value" placeholder="请输入手机号、QQ、微信号" />
+          <van-field
+            v-model="userAccout"
+            placeholder="请输入手机号、QQ、微信号"
+          />
         </div>
       </div>
     </div>
@@ -88,21 +93,34 @@
       </div>
     </div>
     <div class="recharge">
-      <div class="recharge-btn-1"></div>
-      <div class="recharge-btn-2"></div>
+      <div class="recharge-btn-1">24元</div>
+      <div class="recharge-btn-2">立即兑换</div>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import { Field, Col, Row } from "vant";
+import { useRoute } from 'vue-router'
+
 export default {
   components: {
     [Field.name]: Field,
     [Col.name]: Col,
     [Row.name]: Row,
   },
-  setup () { },
+  setup () {
+    const userAccout = ref(null);
+    const route = useRoute();
+    const { value } = route.query;
+    const commodity = JSON.parse(value);
+
+    return {
+      commodity,
+      userAccout
+    }
+  },
 };
 </script>
 
@@ -232,16 +250,33 @@ export default {
 
   .recharge {
     width: 100%;
-    height: 68px;
-    margin-top: 30px;
+    height: 100px;
     background: url('../assets/txsp/recharge-bgd.png') no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     color: #f8ede1;
     display: flex;
+    align-items: center;
+    justify-content: space-around;
     .recharge-btn-1 {
-      width: 30%;
-      height: 50px;
+      width: 130px;
+      height: 44px;
+      background: url('../assets/txsp/btn-2.png') no-repeat center;
+      background-size: 100% 100%;
+      text-align: center;
+      line-height: 44px;
+      color: #fdc255;
+      font-size: 15px;
+    }
+    .recharge-btn-2 {
+      width: 200px;
+      height: 44px;
+      background: url('../assets/txsp/btn-3.png') no-repeat center;
+      background-size: 100% 100%;
+      text-align: center;
+      line-height: 44px;
+      color: #f8ede1;
+      font-size: 15px;
     }
   }
 }

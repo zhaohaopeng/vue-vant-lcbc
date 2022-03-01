@@ -92,7 +92,7 @@ export default {
     ModelExchange,
     [Dialog.Component.name]: Dialog.Component,
   },
-  setup() {
+  setup () {
     const activityId = 1;
     const account = store.state.account;
     const router = useRouter();
@@ -127,7 +127,7 @@ export default {
     };
 
     // 获取初始化数据
-    function init() {
+    function init () {
       handleQueryOrderInfo();
       handleQueryCommodity();
     }
@@ -144,7 +144,7 @@ export default {
     };
 
     // 创建账户
-    async function handleCreateUser() {
+    async function handleCreateUser () {
       try {
         if (account) {
           await createUser({ account });
@@ -158,7 +158,7 @@ export default {
     }
     handleCreateUser();
 
-    function clickCouponsGuide(type) {
+    function clickCouponsGuide (type) {
       if (type == 1) {
         refModelCouponsGuide.value.handleOpen("可用城市");
       } else {
@@ -168,7 +168,7 @@ export default {
       }
     }
 
-    async function handleExchange(type) {
+    async function handleExchange (type) {
       if (!type) {
         const { StatusMsg, StatusCode } = await addOrder();
         if (StatusCode == 0) {
@@ -188,13 +188,13 @@ export default {
       }
     }
 
-    function handleJump() {
+    function handleJump () {
       router.push({
         name: "Ride",
       });
     }
 
-    function handleTowWelfare() {
+    function handleTowWelfare () {
       const url = "http://www.sz.icbc.com.cn/t/SWPTL9";
       if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
         window.ICBCUtil.browseExternalURL(url);
@@ -271,13 +271,13 @@ export default {
   .header {
     width: 100%;
     height: 260px;
-    background: url("../assets/ccq/header.png") no-repeat center;
+    background: url('../assets/ccq/header.png') no-repeat center;
     background-size: 100% 100%;
     overflow: hidden;
     .text {
       width: 350px;
       height: 84px;
-      background: url("../assets/ccq/header-text.png") no-repeat center;
+      background: url('../assets/ccq/header-text.png') no-repeat center;
       background-size: 100% 100%;
       margin-top: 44px;
     }
@@ -294,7 +294,7 @@ export default {
       .button {
         width: 168px;
         height: 100%;
-        background: url("../assets/ccq/box-1-btn.png") no-repeat center;
+        background: url('../assets/ccq/box-1-btn.png') no-repeat center;
         background-size: 100% 100%;
         font-size: 14px;
         color: #ffffff;
@@ -305,7 +305,7 @@ export default {
     .box-2 {
       width: 100%;
       height: 214px;
-      background: url("../assets/ccq/bgd-1.png") no-repeat center;
+      background: url('../assets/ccq/bgd-1.png') no-repeat center;
       background-size: 100% 100%;
       margin-top: 15px;
       .top {
@@ -344,7 +344,7 @@ export default {
         .card {
           width: 152px;
           height: 76px;
-          background: url("../assets/ccq/card.png") no-repeat center;
+          background: url('../assets/ccq/card.png') no-repeat center;
           background-size: 100% 100%;
           font-size: 13px;
           color: #0d1824;
@@ -356,7 +356,7 @@ export default {
           }
         }
         .card.active {
-          background: url("../assets/ccq/card-active.png") no-repeat center;
+          background: url('../assets/ccq/card-active.png') no-repeat center;
           background-size: 100% 100%;
           color: #32755a;
         }
@@ -373,7 +373,7 @@ export default {
         .btn {
           width: 154px;
           height: 100%;
-          background: url("../assets/ccq/box-2-btn.png") no-repeat center;
+          background: url('../assets/ccq/box-2-btn.png') no-repeat center;
           background-size: 100% 100%;
           text-align: center;
           line-height: 48px;
@@ -396,7 +396,7 @@ export default {
     .box-4 {
       width: 100%;
       height: 140px;
-      background: url("../assets/ccq/bgd-3.png") no-repeat center;
+      background: url('../assets/ccq/bgd-3.png') no-repeat center;
       background-size: 100% 100%;
       box-sizing: border-box;
       padding: 20px;
@@ -408,14 +408,14 @@ export default {
         width: 100%;
         height: 74px;
         margin-top: 10px;
-        background: url("../assets/ccq/active.png") no-repeat center;
+        background: url('../assets/ccq/active.png') no-repeat center;
         background-size: 100% 100%;
         position: relative;
 
         .btn {
           width: 106px;
           height: 30px;
-          background: url("../assets/ccq/box-4-btn.png") no-repeat center;
+          background: url('../assets/ccq/box-4-btn.png') no-repeat center;
           background-size: 100% 100%;
           position: absolute;
           bottom: 6px;
@@ -427,7 +427,7 @@ export default {
       width: 100%;
       min-height: 400px;
       box-sizing: border-box;
-      background: url("../assets/ccq/bgd-2.png") no-repeat center;
+      background: url('../assets/ccq/bgd-2.png') no-repeat center;
       background-size: 100% 100%;
       margin: 15px 0;
       padding: 20px;

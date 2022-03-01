@@ -4,56 +4,25 @@
       <div class="title">腾讯视频会员</div>
       <div class="card-list">
         <div
+          v-for="item in commodity"
+          :key="item.code"
           class="card"
-          :class="{ 'card-active': active == 1 }"
-          @click="active = 1"
+          :class="{ 'card-active': active == item.code }"
+          @click="active = item.code"
         >
-          <div class="name">腾讯视频周卡</div>
-          <div class="integral">8折</div>
+          <div class="name">{{ item.name }}</div>
+          <div class="integral">{{ item.discount }}折</div>
           <div class="price">
-            <div class="discount">¥9</div>
-            <div class="text">原价¥12</div>
-          </div>
-        </div>
-        <div
-          class="card"
-          :class="{ 'card-active': active == 2 }"
-          @click="active = 2"
-        >
-          <div class="name">腾讯视频月卡</div>
-          <div class="integral">8折</div>
-          <div class="price">
-            <div class="discount">¥24</div>
-            <div class="text">原价¥30</div>
-          </div>
-        </div>
-        <div
-          class="card"
-          :class="{ 'card-active': active == 3 }"
-          @click="active = 3"
-        >
-          <div class="name">腾讯视频季卡</div>
-          <div class="integral">8折</div>
-          <div class="price">
-            <div class="discount">¥54</div>
-            <div class="text">原价¥68</div>
-          </div>
-        </div>
-        <div
-          class="card"
-          :class="{ 'card-active': active == 4 }"
-          @click="active = 4"
-        >
-          <div class="name">腾讯视频年卡</div>
-          <div class="integral">8折</div>
-          <div class="price">
-            <div class="discount">¥202</div>
-            <div class="text">原价¥253</div>
+            <div class="discount">¥{{ item.scribing_price }}</div>
+            <div class="text">原价¥{{ item.price }}</div>
           </div>
         </div>
       </div>
       <div class="input">
-        <van-field v-model="value" placeholder="请输入手机号、QQ、微信号" />
+        <van-field
+          v-model="userAccout"
+          placeholder="请输入手机号、QQ、微信号"
+        />
       </div>
     </div>
     <div class="black-box"></div>
@@ -125,9 +94,7 @@
         <p class="text">
           5.如有疑问，请咨询深圳市盛宇信达企业管理咨询有限公司,客服电话:400001598(人工服务时间:9:00-18:00)。
         </p>
-        <div class="recharge">
-            立即充值
-        </div>
+        <div class="recharge">立即充值</div>
       </div>
     </div>
   </div>
@@ -136,7 +103,12 @@
 
 <script>
 import { ref } from "vue";
+import { useRoute } from 'vue-router'
 import { Field, Col, Row } from "vant";
+import { Notify } from "vant";
+import {
+  queryCommodity,
+} from "@/api/index";
 
 export default {
   components: {
@@ -144,10 +116,32 @@ export default {
     [Col.name]: Col,
     [Row.name]: Row,
   },
-  setup() {
+  setup () {
     const active = ref(1);
+    const commodity = ref({});
+    const userAccout = ref(null);
+
+    const route = useRoute();
+    const { value } = route.query;
+    const item = JSON.parse(value);
+    active.value = item.code;
+
+    // 获取商品信息
+    const handleQueryCommodity = async () => {
+      try {
+        const res = await queryCommodity({ type: 2 });
+        commodity.value = res;
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+
+    handleQueryCommodity();
+
     return {
       active,
+      commodity,
+      userAccout,
     };
   },
 };
@@ -158,7 +152,7 @@ export default {
   width: 100%;
   min-height: 100vh;
   background: #000;
-  background: url("../assets/txsp/bgd.png") repeat-y center;
+  background: url('../assets/txsp/bgd.png') repeat-y center;
   background-size: 100% 100%;
   overflow: hidden;
 
@@ -191,7 +185,7 @@ export default {
         margin-top: 10px;
         width: 100%;
         height: 56px;
-        background: url("../assets/txsp/card.png") no-repeat center;
+        background: url('../assets/txsp/card.png') no-repeat center;
         background-size: 100% 100%;
         box-sizing: border-box;
         padding: 10px 15px;
@@ -225,7 +219,7 @@ export default {
       }
 
       .card-active {
-        background: url("../assets/txsp/card-active.png") no-repeat center;
+        background: url('../assets/txsp/card-active.png') no-repeat center;
         background-size: 100% 100%;
         .name {
           color: #3a190e;
@@ -252,7 +246,7 @@ export default {
 
     .input {
       margin-top: 15px;
-      background: url("../assets/txsp/input.png") no-repeat center;
+      background: url('../assets/txsp/input.png') no-repeat center;
       background-size: 100% 100%;
     }
   }
@@ -302,7 +296,7 @@ export default {
       width: 100%;
       height: 44px;
       margin-top: 30px;
-      background: url("../assets/txsp/recharge-btn.png") no-repeat center;
+      background: url('../assets/txsp/recharge-btn.png') no-repeat center;
       background-size: 100% 100%;
       text-align: center;
       font-size: 14px;

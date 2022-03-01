@@ -16,41 +16,14 @@
         <div class="subtitle">活动规则>></div>
       </div>
       <div class="card-list">
-        <div class="card">
-          <div class="name">腾讯视频周卡</div>
+        <div class="card" v-for="item in commodity" :key="item.code">
+          <div class="name">{{ item.name }}</div>
           <div class="price">
-            <div class="discount">8折</div>
-            <div class="text">¥12</div>
+            <div class="discount">{{ item.discount }}折</div>
+            <div class="text">¥{{ item.scribing_price }}</div>
           </div>
-          <div class="integral">7046积分</div>
-          <div class="active">兑换</div>
-        </div>
-        <div class="card">
-          <div class="name">腾讯视频月卡</div>
-          <div class="price">
-            <div class="discount">8折</div>
-            <div class="text">¥30</div>
-          </div>
-          <div class="integral">17616积分</div>
-          <div class="active">兑换</div>
-        </div>
-        <div class="card">
-          <div class="name">腾讯视频季卡</div>
-          <div class="price">
-            <div class="discount">8折</div>
-            <div class="text">¥68</div>
-          </div>
-          <div class="integral">30930积分</div>
-          <div class="active">兑换</div>
-        </div>
-        <div class="card">
-          <div class="name">腾讯视频年卡</div>
-          <div class="price">
-            <div class="discount">8折</div>
-            <div class="text">¥253</div>
-          </div>
-          <div class="integral">148561积分</div>
-          <div class="active">兑换</div>
+          <div class="integral">{{ item.integral }}积分</div>
+          <div class="active" @click="handleExchange(item)">兑换</div>
         </div>
       </div>
     </div>
@@ -127,12 +100,20 @@
   </div>
 </template>
 
-
 <script>
 import Swiper from "../components/Swiper.vue";
 import ModelTxSuccess from "../components/ModelTxSuccess.vue";
-import { Swipe, SwipeItem } from "vant";
+import { Swipe, SwipeItem, Notify } from "vant";
 import { ref, onMounted } from "vue";
+import {
+  createUser,
+  queryUserInfo,
+  queryByIdActivity,
+  queryCommodity,
+  queryOrderInfo,
+} from "@/api/index";
+import store from "@/store";
+import { useRouter } from "vue-router";
 export default {
   components: {
     Swiper,
@@ -140,17 +121,142 @@ export default {
     [SwipeItem.name]: SwipeItem,
     ModelTxSuccess,
   },
-  setup() {
-    const activityid = 2;
+  setup () {
+    const activityId = 2;
     const refModelTxSuccess = ref(null);
+    const account = store.state.account;
+    const router = useRouter();
+    const itemsActive = ref(0);
+    const refModelCouponsGuide = ref(null);
+    const refModelResult = ref(null);
+    const userInfo = ref(null);
+    const activity = ref(null);
+    const commodity = ref(null);
+    const userOrderInfo = ref({});
 
     onMounted(() => {
-      refModelTxSuccess.value.handleOpen();
+      // refModelTxSuccess.value.handleOpen();
     });
 
+    // 查询活动
+    const handleQueryByIdActivity = async () => {
+      try {
+        const res = await queryByIdActivity({ activityId });
+        activity.value = { ...res };
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+    handleQueryByIdActivity();
+
+    // 获取商品信息
+    const handleQueryCommodity = async () => {
+      try {
+        const res = await queryCommodity({ type: 2 });
+        commodity.value = res;
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+
+    // 获取初始化数据
+    function init () {
+      handleQueryOrderInfo();
+      handleQueryCommodity();
+    }
+
+    // 查询用户
+    const handleQueryUserInfo = async (params) => {
+      try {
+        const res = await queryUserInfo(params);
+        userInfo.value = res;
+        init();
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+
+    // 创建账户
+    async function handleCreateUser () {
+      try {
+        if (account) {
+          await createUser({ account });
+          handleQueryUserInfo({ account });
+        } else {
+          Notify({ type: "warning", message: "手机号为空" });
+        }
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    }
+    handleCreateUser();
+
+    function clickCouponsGuide (type) {
+      if (type == 1) {
+        refModelCouponsGuide.value.handleOpen("可用城市");
+      } else {
+        router.push({
+          name: "Guide",
+        });
+      }
+    }
+
+    function handleExchange (item) {
+      router.push({
+        name: "Txvip",
+        query: {
+          value: JSON.stringify(item),
+        }
+      });
+    }
+
+    function handleJump () {
+      router.push({
+        name: "Ride",
+      });
+    }
+
+    function handleTowWelfare () {
+      const url = "http://www.sz.icbc.com.cn/t/SWPTL9";
+      if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
+        window.ICBCUtil.browseExternalURL(url);
+      } else {
+        window.location.href = url;
+      }
+    }
+
+    // 查询指定人员订单信息
+    const handleQueryOrderInfo = async () => {
+      try {
+        const res = await queryOrderInfo({
+          uid: userInfo.value.id,
+          activityid: activityId,
+        });
+        userOrderInfo.value = res || {};
+        if (
+          userOrderInfo.value &&
+          userOrderInfo.value.orderstate &&
+          userOrderInfo.value.orderstate == "1"
+        ) {
+          refModelResult.value.handleOpen({
+            aid: activityId,
+            uid: userInfo.value.id,
+          });
+        }
+      } catch (err) {
+        Notify({ type: "warning", message: err });
+      }
+    };
+
     return {
-      activityid,
+      activityId,
       refModelTxSuccess,
+      commodity,
+      itemsActive,
+      clickCouponsGuide,
+      handleExchange,
+      handleJump,
+      handleTowWelfare,
     };
   },
 };
@@ -161,12 +267,12 @@ export default {
   width: 100%;
   min-height: 100vh;
   background: #000;
-  background: url("../assets/txsp/bgd.png") repeat-y center;
+  background: url('../assets/txsp/bgd.png') repeat-y center;
   background-size: 100% 100%;
   .header {
     width: 100%;
     height: 164px;
-    background: url("../assets/txsp/header.png") no-repeat center;
+    background: url('../assets/txsp/header.png') no-repeat center;
     background-size: 100% 100%;
     overflow: hidden;
     .logo {
@@ -174,7 +280,7 @@ export default {
       height: 28px;
       margin: 0 auto;
       margin-top: 30px;
-      background: url("../assets/txsp/box-1.png") no-repeat center;
+      background: url('../assets/txsp/box-1.png') no-repeat center;
       background-size: 100% 100%;
       display: flex;
       justify-content: center;
@@ -183,7 +289,7 @@ export default {
       .tx-logo {
         width: 98px;
         height: 18px;
-        background: url("../assets/txsp/tx-logo.png") no-repeat center;
+        background: url('../assets/txsp/tx-logo.png') no-repeat center;
         background-size: 100% 100%;
         margin-right: 10px;
       }
@@ -191,7 +297,7 @@ export default {
       .gh-logo {
         width: 105px;
         height: 13px;
-        background: url("../assets/txsp/gh-logo.png") no-repeat center;
+        background: url('../assets/txsp/gh-logo.png') no-repeat center;
         background-size: 100% 100%;
       }
     }
@@ -199,7 +305,7 @@ export default {
     .title {
       width: 258px;
       height: 36px;
-      background: url("../assets/txsp/header-title.png") no-repeat center;
+      background: url('../assets/txsp/header-title.png') no-repeat center;
       background-size: 100% 100%;
       margin: 0 auto;
       margin-top: 16px;
@@ -242,7 +348,7 @@ export default {
         margin-top: 10px;
         width: 100%;
         height: 56px;
-        background: url("../assets/txsp/card.png") no-repeat center;
+        background: url('../assets/txsp/card.png') no-repeat center;
         background-size: 100% 100%;
         box-sizing: border-box;
         padding: 10px 15px;
@@ -258,7 +364,7 @@ export default {
           .discount {
             width: 46px;
             height: 24px;
-            background: url("../assets/txsp/discount.png") no-repeat center;
+            background: url('../assets/txsp/discount.png') no-repeat center;
             background-size: 100% 100%;
             text-align: center;
             line-height: 24px;
@@ -281,7 +387,7 @@ export default {
           line-height: 20px;
           color: #3a190e;
           font-size: 12px;
-          background: url("../assets/txsp/exchange.png") no-repeat center;
+          background: url('../assets/txsp/exchange.png') no-repeat center;
           background-size: 100% 100%;
         }
       }
@@ -296,7 +402,7 @@ export default {
       .recharge {
         width: 106px;
         height: 66px;
-        background: url("../assets/txsp/recharge.png") no-repeat center;
+        background: url('../assets/txsp/recharge.png') no-repeat center;
         background-size: 100% 100%;
         position: relative;
 
@@ -350,7 +456,7 @@ export default {
       width: 100%;
       height: 111px;
       margin-top: 10px;
-      background: url("../assets/txsp/welfare.png") no-repeat center;
+      background: url('../assets/txsp/welfare.png') no-repeat center;
       background-size: 100% 100%;
       position: relative;
       .title {
@@ -364,7 +470,7 @@ export default {
       .see {
         width: 70px;
         height: 26px;
-        background: url("../assets/txsp/see.png") no-repeat center;
+        background: url('../assets/txsp/see.png') no-repeat center;
         background-size: 100% 100%;
         position: absolute;
         bottom: 26px;
