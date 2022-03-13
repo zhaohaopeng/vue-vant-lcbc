@@ -1,5 +1,6 @@
 const path = require("path"); //文件头部引入path
 module.exports = {
+  publicPath: '/ccq/',
   devServer: {
     open: true
   },

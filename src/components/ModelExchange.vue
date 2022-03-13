@@ -38,7 +38,8 @@ import { ref } from "vue";
 import { Icon, Dialog, Stepper, Notify } from "vant";
 import {
   // createOrder,
-  queryOrderParam,
+  createRygOrder,
+  // queryOrderParam,
 } from "@/api/index";
 export default {
   name: "ModelApplyLimit",
@@ -48,7 +49,7 @@ export default {
     [Stepper.name]: Stepper,
     [Notify.name]: Notify,
   },
-  setup () {
+  setup() {
     const show = ref(false);
     const title = ref(null);
     const checkedItem = ref(null);
@@ -77,27 +78,28 @@ export default {
         cardType,
         num: checkedItem.value.num,
       };
-      console.log(params, ":params");
-      try {
-        const { StatusCode, merCert, merSignMsg, tranData } =
-          await queryOrderParam();
-        if (StatusCode == 0) {
-          if (window.ICBCUtil) {
-            Notify({ type: "success", message: `window.ICBCUtil.submitOrder 调用` });
-            window.ICBCUtil.submitOrder({
-              interfaceName: "ICBC_WAPB_B2C",
-              interfaceVersion: "1.0.0.6",
-              tranData,
-              merSignMsg,
-              merCert,
-            });
-          } else {
-            Notify({ type: "warning", message: `ICBCUtil为空` });
-          }
-        }
-      } catch (x) {
-        Notify({ type: "warning", message: x });
-      }
+      // console.log(params, ":params");
+      // try {
+      //   const { StatusCode, merCert, merSignMsg, tranData } =
+      //     await queryOrderParam();
+      //   if (StatusCode == 0) {
+      //     if (window.ICBCUtil) {
+      //       Notify({ type: "success", message: `window.ICBCUtil.submitOrder 调用` });
+      //       window.ICBCUtil.submitOrder({
+      //         interfaceName: "ICBC_WAPB_B2C",
+      //         interfaceVersion: "1.0.0.6",
+      //         tranData,
+      //         merSignMsg,
+      //         merCert,
+      //       });
+      //     } else {
+      //       Notify({ type: "warning", message: `ICBCUtil为空` });
+      //     }
+      //   }
+      // } catch (x) {
+      //   Notify({ type: "warning", message: x });
+      // }
+
       // const { StatusMsg, StatusCode } = await createOrder(params);
       // if (StatusCode == 0) {
       //   if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
@@ -106,6 +108,11 @@ export default {
       //     window.location.href = StatusMsg;
       //   }
       // }
+
+      const { StatusMsg, StatusCode } = await createRygOrder(params);
+      if (StatusCode == 0) {
+        document.write(StatusMsg);
+      }
     };
 
     return {
@@ -129,7 +136,7 @@ export default {
   .container {
     width: 100%;
     height: 290px;
-    background: url('../assets/ccq/bgd-1.png') no-repeat center;
+    background: url("../assets/ccq/bgd-1.png") no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
@@ -140,7 +147,7 @@ export default {
     .close {
       width: 14px;
       height: 14px;
-      background: url('../assets/ccq/close.png') no-repeat center;
+      background: url("../assets/ccq/close.png") no-repeat center;
       background-size: 100% 100%;
       position: absolute;
       right: 6px;
@@ -168,7 +175,7 @@ export default {
       .card {
         width: 152px;
         height: 76px;
-        background: url('../assets/ccq/card-active.png') no-repeat center;
+        background: url("../assets/ccq/card-active.png") no-repeat center;
         background-size: 100% 100%;
         font-size: 13px;
         box-sizing: border-box;
@@ -207,11 +214,11 @@ export default {
       }
       .btn-1 {
         color: #fff;
-        background: url('../assets/ccq/return.png') no-repeat center;
+        background: url("../assets/ccq/return.png") no-repeat center;
         background-size: 100% 100%;
       }
       .btn-2 {
-        background: url('../assets/ccq/model-btn.png') no-repeat center;
+        background: url("../assets/ccq/model-btn.png") no-repeat center;
         background-size: 100% 100%;
       }
     }

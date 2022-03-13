@@ -11,6 +11,11 @@ export const addOrder = () => request({
   method: 'get',
 })
 
+export const createRygOrder = () => request({
+  url: '/v1/icbc/createRygOrder',
+  method: 'get',
+})
+
 // 获取账户信息
 export const queryBankUserInfo = (data) => request({
   url: '/v1/oath/queryBankUserInfo',
@@ -61,3 +66,12 @@ export const queryOrderInfo = (data) => request({
   method: 'post',
   data
 })
+
+
+export const checkAuthorizationNew = (data) => request({
+  url: 'http://mmall4.dccnet.com.cn/mobile/member/checkAuthorizationNew.jhtml',
+  method: 'post',
+  data
+})
+
+
