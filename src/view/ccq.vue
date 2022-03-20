@@ -80,7 +80,7 @@ import {
   queryUserInfo,
   queryByIdActivity,
   queryCommodity,
-  queryOrderInfo,
+  queryOrderInfo
 } from "@/api/index";
 import { Notify, Dialog } from "vant";
 import store from "@/store";
@@ -89,11 +89,13 @@ export default {
     ModelCouponsGuide,
     ModelResult,
     ModelExchange,
-    [Dialog.Component.name]: Dialog.Component,
+    [Dialog.Component.name]: Dialog.Component
   },
   setup() {
     const activityId = 1;
-    const account = store.state.account;
+    const mobile = store.state.mobile;
+    const deviceId = store.state.deviceId;
+    const userId = store.state.userId;
     const router = useRouter();
     const itemsActive = ref(0);
     const refModelCouponsGuide = ref(null);
@@ -103,12 +105,6 @@ export default {
     const activity = ref(null);
     const commodity = ref(null);
     const userOrderInfo = ref({});
-
-    Dialog.alert({
-      message: window.location.href,
-      confirmButtonText: "我知道了",
-      confirmButtonColor: "rgba(0,0,0,0.6)",
-    });
 
     // 查询活动
     const handleQueryByIdActivity = async () => {
@@ -138,7 +134,7 @@ export default {
     }
 
     // 查询用户
-    const handleQueryUserInfo = async (params) => {
+    const handleQueryUserInfo = async params => {
       try {
         const res = await queryUserInfo(params);
         userInfo.value = res;
@@ -150,10 +146,15 @@ export default {
 
     // 创建账户
     async function handleCreateUser() {
+      const params = {
+        account: mobile,
+        ryuserid: userId,
+        deviceId: deviceId
+      };
       try {
-        if (account) {
-          await createUser({ account });
-          handleQueryUserInfo({ account });
+        if (mobile) {
+          await createUser(params);
+          handleQueryUserInfo(params);
         } else {
           Notify({ type: "warning", message: "手机号为空" });
         }
@@ -168,7 +169,7 @@ export default {
         refModelCouponsGuide.value.handleOpen("可用城市");
       } else {
         router.push({
-          name: "Guide",
+          name: "Guide"
         });
       }
     }
@@ -195,7 +196,7 @@ export default {
 
     function handleJump() {
       router.push({
-        name: "Ride",
+        name: "Ride"
       });
     }
 
@@ -213,7 +214,7 @@ export default {
       try {
         const res = await queryOrderInfo({
           uid: userInfo.value.id,
-          activityid: activityId,
+          activityid: activityId
         });
         userOrderInfo.value = res || {};
         if (
@@ -223,7 +224,7 @@ export default {
         ) {
           refModelResult.value.handleOpen({
             aid: activityId,
-            uid: userInfo.value.id,
+            uid: userInfo.value.id
           });
         }
       } catch (err) {
@@ -240,9 +241,9 @@ export default {
       clickCouponsGuide,
       handleExchange,
       handleJump,
-      handleTowWelfare,
+      handleTowWelfare
     };
-  },
+  }
 };
 </script>
 

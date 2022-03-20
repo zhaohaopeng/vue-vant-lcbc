@@ -74,4 +74,11 @@ export const checkAuthorizationNew = (data) => request({
   data
 })
 
+// 获取用户信息
+export const queryUserInfoicbc = (data) => request({
+  url: '/v1/icbc/queryUserInfo',
+  method: 'get',
+  params: data
+})
+
 

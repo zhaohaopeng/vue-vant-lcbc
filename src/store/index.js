@@ -4,20 +4,24 @@ import {
 
 export default createStore({
     state: {
-        userinfo: {},
-        openid: null,
-        account: null
+        userInfoKey: null,
+        mobile: null,
+        deviceId: null,
+        userId: null,
     },
     getters: {},
     mutations: {
-        setopenid(state, openid) {
-            state.openid = openid;
+        setUserInfoKey(state, userInfoKey) {
+            state.userInfoKey = userInfoKey;
         },
-        setAccount(state, account) {
-            state.account = account;
+        setMobile(state, mobile) {
+            state.mobile = mobile;
         },
-        setUserinfo(state, userinfo) {
-            state.userinfo = userinfo;
+        setDeviceId(state, deviceId) {
+            state.deviceId = deviceId;
+        },
+        setUserId(state, userId) {
+            state.userId = userId;
         }
     },
     actions: {},

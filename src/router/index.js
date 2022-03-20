@@ -11,8 +11,14 @@ NProgress.configure({
   showSpinner: false
 })
 
-const routes = [{
+const routes = [
+  {
     path: '/',
+    name: 'login',
+    component: () => import('@/view/login'),
+  },
+  {
+    path: '/ccq',
     name: 'Ccq',
     component: () => import('@/view/ccq'),
     meta: {
@@ -56,11 +62,7 @@ const routes = [{
     name: 'Ride',
     component: () => import('@/view/ride'),
   },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/view/login'),
-  },
+
 ]
 
 const router = createRouter({
