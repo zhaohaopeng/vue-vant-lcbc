@@ -41,6 +41,7 @@ import {
   createRygOrder,
   // queryOrderParam,
 } from "@/api/index";
+import store from "@/store";
 export default {
   name: "ModelApplyLimit",
   components: {
@@ -54,6 +55,7 @@ export default {
     const title = ref(null);
     const checkedItem = ref(null);
     const num = ref(1);
+    const userId = store.state.userId;
     let activityid, uid, cardType;
 
     const handleOpen = (type, item, aid, _uid) => {
@@ -72,6 +74,7 @@ export default {
 
     const handleConfirmSava = async () => {
       const params = {
+        userId,
         activityid,
         uid,
         commodityid: checkedItem.value.id,

@@ -1,6 +1,5 @@
 import request from "@/utils/request";
 
-
 export const queryOrderParam = () => request({
   url: '/v1/icbc/queryOrderParam',
   method: 'get',
@@ -11,9 +10,10 @@ export const addOrder = () => request({
   method: 'get',
 })
 
-export const createRygOrder = () => request({
+export const createRygOrder = (params) => request({
   url: '/v1/icbc/createRygOrder',
   method: 'get',
+  params
 })
 
 // 获取账户信息
@@ -67,7 +67,6 @@ export const queryOrderInfo = (data) => request({
   data
 })
 
-
 export const checkAuthorizationNew = (data) => request({
   url: 'http://mmall4.dccnet.com.cn/mobile/member/checkAuthorizationNew.jhtml',
   method: 'post',
@@ -80,5 +79,3 @@ export const queryUserInfoicbc = (data) => request({
   method: 'get',
   params: data
 })
-
-

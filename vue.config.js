@@ -1,8 +1,18 @@
-const path = require("path"); //文件头部引入path
 module.exports = {
+  productionSourceMap: false,
   publicPath: '/ccq/',
   devServer: {
-    open: true
+    open: true,
+    proxy: {
+      '/api': {
+        target: 'https://sy.szduopin.com/api',
+        secure: true, // 是否为 https
+        changeOrigin: true, // 是否跨域
+        // pathRewrite: {
+        //   '^/api': '' // 通过pathRewrite重写地址，将前缀/api转为/
+        // }
+      }
+    }
   },
   chainWebpack: config => {
     config.plugin('html')
