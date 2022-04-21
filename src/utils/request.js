@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import AES from '@/utils/crypto'
 // create an axios instance
 const service = axios.create({
   baseURL: 'https://sy.szduopin.com/api', // url = base url + request url
@@ -10,14 +10,12 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    console.log(config, ":config");
-    // do something before request is sent
-    // if (store.getters.token) {
-    //   // let each request carry token
-    //   // ['X-Token'] is a custom headers key
-    //   // please modify it according to the actual situation
-    //   config.headers['X-Access-Token'] = getToken()
-    // }
+    // 请求头添加加密信息
+    const Authorization = AES.encrypt(JSON.stringify({
+      sign: '4fc0dc8eeefe4a3c905f9f49cf1f69af',
+      nonce: +new Date()
+    }))
+    config.headers['Authorization'] = Authorization;
     return config
   },
   error => {
@@ -40,7 +38,9 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const res = response.data
+    const res = JSON.parse(AES.decrypt(response.data));
+    console.log(res,"::::::::::::res");
+    
     // if the custom code is not 20000, it is judged as an error.
     if (res.StatusCode !== 0) {
       // Message({

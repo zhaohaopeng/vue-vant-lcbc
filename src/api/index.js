@@ -55,7 +55,7 @@ export const queryByIdActivity = (data) => request({
 
 // 创建订单
 export const createOrder = (data) => request({
-  url: '/v1/order/createOrder',
+  url: '/v1/icbc/createOrder',
   method: 'post',
   data
 })

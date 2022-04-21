@@ -37,9 +37,7 @@
 import { ref } from "vue";
 import { Icon, Dialog, Stepper, Notify } from "vant";
 import {
-  // createOrder,
-  createRygOrder,
-  // queryOrderParam,
+  createOrder
 } from "@/api/index";
 import store from "@/store";
 export default {
@@ -48,7 +46,7 @@ export default {
     [Icon.name]: Icon,
     [Dialog.Component.name]: Dialog.Component,
     [Stepper.name]: Stepper,
-    [Notify.name]: Notify,
+    [Notify.name]: Notify
   },
   setup() {
     const show = ref(false);
@@ -74,12 +72,12 @@ export default {
 
     const handleConfirmSava = async () => {
       const params = {
-        userId,
         activityid,
         uid,
         commodityid: checkedItem.value.id,
         cardType,
         num: checkedItem.value.num,
+        rygUserId: userId
       };
       // console.log(params, ":params");
       // try {
@@ -112,7 +110,7 @@ export default {
       //   }
       // }
 
-      const { StatusMsg, StatusCode } = await createRygOrder(params);
+      const { StatusMsg, StatusCode } = await createOrder(params);
       if (StatusCode == 0) {
         document.write(StatusMsg);
       }
@@ -125,9 +123,9 @@ export default {
       checkedItem,
       handleOpen,
       handleClose,
-      handleConfirmSava,
+      handleConfirmSava
     };
-  },
+  }
 };
 </script>
 
