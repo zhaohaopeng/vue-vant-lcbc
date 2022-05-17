@@ -21,7 +21,7 @@ export default {
 
         if (!key) {
           const urlStr =
-            "https://mmall4.dccnet.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Fccq&outerName=8024";
+            "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Fccq&outerName=8024";
           window.location.href = urlStr;
         } else {
           try {
