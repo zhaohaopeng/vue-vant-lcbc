@@ -21,7 +21,9 @@
           </div>
         </div>
         <div class="box-1">
-          <div>您兑换的是<span>储蓄卡</span>乘车劵</div>
+          <div>
+            您兑换的是<span>{{ cardType == 1 ? "储蓄卡" : "信用卡" }}</span>乘车劵
+          </div>
           <div>一经兑换，不能退还</div>
         </div>
         <div class="button">
@@ -36,9 +38,7 @@
 <script>
 import { ref } from "vue";
 import { Icon, Dialog, Stepper, Notify } from "vant";
-import {
-  createOrder
-} from "@/api/index";
+import { createOrder } from "@/api/index";
 import store from "@/store";
 export default {
   name: "ModelApplyLimit",
@@ -46,7 +46,7 @@ export default {
     [Icon.name]: Icon,
     [Dialog.Component.name]: Dialog.Component,
     [Stepper.name]: Stepper,
-    [Notify.name]: Notify
+    [Notify.name]: Notify,
   },
   setup() {
     const show = ref(false);
@@ -54,10 +54,11 @@ export default {
     const checkedItem = ref(null);
     const num = ref(1);
     const userId = store.state.userId;
-    let activityid, uid, cardType;
+    const cardType = ref(null);
+    let activityid, uid;
 
     const handleOpen = (type, item, aid, _uid) => {
-      cardType = type;
+      cardType.value = type;
       title.value = type == 1 ? "储蓄卡乘车劵兑换" : "信用卡乘车劵兑换";
       checkedItem.value = item;
       show.value = true;
@@ -75,9 +76,9 @@ export default {
         activityid,
         uid,
         commodityid: checkedItem.value.id,
-        cardType,
+        cardType: cardType.value,
         num: checkedItem.value.num,
-        rygUserId: userId
+        rygUserId: userId,
       };
       // console.log(params, ":params");
       // try {
@@ -123,9 +124,10 @@ export default {
       checkedItem,
       handleOpen,
       handleClose,
-      handleConfirmSava
+      handleConfirmSava,
+      cardType,
     };
-  }
+  },
 };
 </script>
 
