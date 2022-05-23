@@ -46,7 +46,7 @@ export const queryUserInfo = (data) => request({
   data
 })
 
-// 查询活动信息
+// 查询活动信息`
 export const queryByIdActivity = (data) => request({
   url: '/v1/activity/queryByIdActivity',
   method: 'post',
@@ -78,4 +78,11 @@ export const queryUserInfoicbc = (data) => request({
   url: '/v1/icbc/queryUserInfo',
   method: 'get',
   params: data
+})
+
+// 生成小程序码
+export const generatescheme = (data) => request({
+  url: `/v1/coupon/generatescheme`,
+  method: 'post',
+  data
 })

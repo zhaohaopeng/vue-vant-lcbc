@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { getQueryVariable } from "@/utils/index";
 import { queryUserInfoicbc } from "@/api";
 import {
-  Notify,
+  Notify
   // Dialog
 } from "vant";
 export default {
@@ -14,21 +14,29 @@ export default {
       const router = useRouter();
       if (userInfoKey) {
         router.push({
-          name: "Ccq",
+          name: "Ccq"
         });
       } else {
+        // Dialog.alert({
+        //   message: window.location.search,
+        //   confirmButtonText: "我知道了",
+        //   confirmButtonColor: "rgba(0,0,0,0.6)"
+        // });
         const key = getQueryVariable("userInfoKey");
-
         if (!key) {
           const urlStr =
             "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Fccq&outerName=19026799";
           window.location.href = urlStr;
         } else {
           try {
-            const { StatusMsg, mobile, deviceId, userId } =
-              await queryUserInfoicbc({
-                userInfoKey: key,
-              });
+            const {
+              StatusMsg,
+              mobile,
+              deviceId,
+              userId
+            } = await queryUserInfoicbc({
+              userInfoKey: key
+            });
 
             if (StatusMsg == "success") {
               store.commit("setUserInfoKey", key);
@@ -36,24 +44,24 @@ export default {
               store.commit("setDeviceId", deviceId);
               store.commit("setUserId", userId);
               router.push({
-                name: "Ccq",
+                name: "Ccq"
               });
             } else {
               Notify({
                 type: "warning",
-                message: "获取用户信息错误",
+                message: "获取用户信息错误"
               });
             }
           } catch (err) {
             Notify({
               type: "warning",
-              message: `系统错误`,
+              message: `系统错误`
             });
           }
         }
       }
     }
     init();
-  },
+  }
 };
 </script>

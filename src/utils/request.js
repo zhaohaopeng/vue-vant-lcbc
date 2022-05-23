@@ -3,6 +3,7 @@ import AES from '@/utils/crypto'
 // create an axios instance
 const service = axios.create({
   baseURL: 'https://sy.szduopin.com/api', // url = base url + request url
+  // baseURL: 'http://159.75.224.219:5000',
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -39,23 +40,13 @@ service.interceptors.response.use(
    */
   response => {
     const res = JSON.parse(AES.decrypt(response.data));
-    console.log(res,"::::::::::::res");
-    
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.StatusCode !== 0) {
-      // Message({
-      //   message: res.message || 'Error',
-      //   type: 'error',
-      //   duration: 5 * 1000
-      // })
+    console.log(res, "::::::::::::res");
 
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-      }
-      return Promise.reject(res.StatusMsg || 'Error')
-    } else {
+    // if the custom code is not 20000, it is judged as an error.
+    if (res.StatusCode == 0 || res.StatusCode == 3001) {
       return res.Body || res
+    } else {
+      return Promise.reject(res.StatusMsg || 'Error')
     }
   },
   error => {

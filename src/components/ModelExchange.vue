@@ -46,9 +46,9 @@ export default {
     [Icon.name]: Icon,
     [Dialog.Component.name]: Dialog.Component,
     [Stepper.name]: Stepper,
-    [Notify.name]: Notify,
+    [Notify.name]: Notify
   },
-  setup() {
+  setup(props, cxt) {
     const show = ref(false);
     const title = ref(null);
     const checkedItem = ref(null);
@@ -78,42 +78,22 @@ export default {
         commodityid: checkedItem.value.id,
         cardType: cardType.value,
         num: checkedItem.value.num,
-        rygUserId: userId,
+        rygUserId: userId
       };
-      // console.log(params, ":params");
-      // try {
-      //   const { StatusCode, merCert, merSignMsg, tranData } =
-      //     await queryOrderParam();
-      //   if (StatusCode == 0) {
-      //     if (window.ICBCUtil) {
-      //       Notify({ type: "success", message: `window.ICBCUtil.submitOrder 调用` });
-      //       window.ICBCUtil.submitOrder({
-      //         interfaceName: "ICBC_WAPB_B2C",
-      //         interfaceVersion: "1.0.0.6",
-      //         tranData,
-      //         merSignMsg,
-      //         merCert,
-      //       });
-      //     } else {
-      //       Notify({ type: "warning", message: `ICBCUtil为空` });
-      //     }
-      //   }
-      // } catch (x) {
-      //   Notify({ type: "warning", message: x });
-      // }
 
-      // const { StatusMsg, StatusCode } = await createOrder(params);
-      // if (StatusCode == 0) {
-      //   if (window.ICBCUtil && window.ICBCUtil.browseExternalURL) {
-      //     window.ICBCUtil.browseExternalURL(StatusMsg);
-      //   } else {
-      //     window.location.href = StatusMsg;
-      //   }
-      // }
-
-      const { StatusMsg, StatusCode } = await createOrder(params);
-      if (StatusCode == 0) {
-        document.write(StatusMsg);
+      try {
+        const res = await createOrder(params);
+        const { StatusMsg, StatusCode } = res;
+        if (StatusCode == 0) {
+          document.write(StatusMsg);
+        } else if (StatusCode == 3001) {
+          show.value = false;
+          cxt.emit("ok");
+        } else {
+          Notify({ type: "warning", message: StatusMsg });
+        }
+      } catch (x) {
+        Notify({ type: "warning", message: x });
       }
     };
 
@@ -125,9 +105,9 @@ export default {
       handleOpen,
       handleClose,
       handleConfirmSava,
-      cardType,
+      cardType
     };
-  },
+  }
 };
 </script>
 

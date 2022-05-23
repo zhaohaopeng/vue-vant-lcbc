@@ -11,7 +11,7 @@
         <div class="icon"></div>
         <div class="text-1">兑换成功</div>
         <div class="text-2">请点击确认去小程序查看领劵明细</div>
-        <div class="btn" @click="handleClose">确认</div>
+        <div class="btn" @click="handleToWeChat">确认</div>
       </div>
     </div>
   </van-dialog>
@@ -19,30 +19,66 @@
 
 <script>
 import { ref } from "vue";
-import { Icon, Dialog } from "vant";
+import { Icon, Dialog, Notify, Toast } from "vant";
+import { generatescheme } from "@/api";
 export default {
   name: "ModelApplyLimit",
   components: {
     [Icon.name]: Icon,
-    [Dialog.Component.name]: Dialog.Component,
+    [Dialog.Component.name]: Dialog.Component
   },
-  setup () {
+  setup() {
     const show = ref(false);
+    let loading = false;
+    let aid = null,
+      uid = null;
 
-    const handleOpen = () => {
+    const handleOpen = res => {
       show.value = true;
+      aid = res.aid;
+      uid = res.uid;
     };
 
     const handleClose = () => {
       show.value = false;
     };
 
+    const handleToWeChat = async () => {
+      if (loading) {
+        if (loading) return;
+        try {
+          Toast.loading({
+            message: "加载中...",
+            forbidClick: true
+          });
+          loading = true;
+          const params = {
+            path: "/pages/volume_lcbc/volume_lcbc",
+            version: "release",
+            query: `uid=${uid}&aid=${aid}`
+          };
+          const { openlink } = await generatescheme(params);
+          Toast.clear();
+          location.href = openlink;
+          loading = false;
+          handleClose();
+        } catch (err) {
+          Toast.clear();
+          loading = false;
+          Notify({ type: "warning", message: err });
+        }
+      } else {
+        handleClose();
+      }
+    };
+
     return {
       show,
       handleOpen,
       handleClose,
+      handleToWeChat
     };
-  },
+  }
 };
 </script>
 
@@ -54,7 +90,7 @@ export default {
   .container {
     width: 100%;
     height: 230px;
-    background: url('../assets/ccq/bgd-1.png') no-repeat center;
+    background: url("../assets/ccq/bgd-1.png") no-repeat center;
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
@@ -65,7 +101,7 @@ export default {
     .close {
       width: 14px;
       height: 14px;
-      background: url('../assets/ccq/close.png') no-repeat center;
+      background: url("../assets/ccq/close.png") no-repeat center;
       background-size: 100% 100%;
       position: absolute;
       right: 6px;
@@ -75,7 +111,7 @@ export default {
       width: 64px;
       height: 64px;
       margin: 0 auto;
-      background: url('../assets/ccq/success.png') no-repeat center;
+      background: url("../assets/ccq/success.png") no-repeat center;
       background-size: 100% 100%;
     }
     .text-1 {
@@ -93,7 +129,7 @@ export default {
       height: 36px;
       margin: 0 auto;
       margin-top: 15px;
-      background: url('../assets/ccq/model-btn.png') no-repeat center;
+      background: url("../assets/ccq/model-btn.png") no-repeat center;
       background-size: 100% 100%;
       font-size: 13px;
       color: #474c87;

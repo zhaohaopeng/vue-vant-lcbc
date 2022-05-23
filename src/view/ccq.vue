@@ -64,7 +64,7 @@
     </div>
     <ModelCouponsGuide ref="refModelCouponsGuide" />
     <ModelResult ref="refModelResult" />
-    <ModelExchange ref="refModelExchange" />
+    <ModelExchange ref="refModelExchange"  @ok="handleToWeChat" />
   </div>
 </template>
 
@@ -232,6 +232,13 @@ export default {
       }
     };
 
+    const handleToWeChat = () => {
+      refModelResult.value.handleOpen({
+        aid: activityId,
+        uid: userInfo.value.id
+      });
+    };
+
     return {
       commodity,
       itemsActive,
@@ -241,7 +248,8 @@ export default {
       clickCouponsGuide,
       handleExchange,
       handleJump,
-      handleTowWelfare
+      handleTowWelfare,
+      handleToWeChat
     };
   }
 };
