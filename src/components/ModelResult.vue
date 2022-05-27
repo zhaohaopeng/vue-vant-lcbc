@@ -71,7 +71,7 @@ export default {
 
         const params = `aid=${aid}&uid=${uid}`;
         const base64Params = encode(params);
-        const url = `https://www.sz.icbc.com.cn/wxbank/openlink/wap2xcx.html?path=packageZH/rideCode/index&params=${base64Params}`;
+        const url = `https://www.sz.icbc.com.cn/wxbank/openlink/wap2xcx.html?path=/packageZH/rideCode/index&params=${base64Params}`;
         window.location.href = url;
 
         handleClose();
