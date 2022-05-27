@@ -25,7 +25,7 @@ export default {
   name: "ModelApplyLimit",
   components: {
     [Icon.name]: Icon,
-    [Dialog.Component.name]: Dialog.Component
+    [Dialog.Component.name]: Dialog.Component,
   },
   setup() {
     const show = ref(false);
@@ -33,7 +33,7 @@ export default {
     let aid = null,
       uid = null;
 
-    const handleOpen = res => {
+    const handleOpen = (res) => {
       show.value = true;
       aid = res.aid;
       uid = res.uid;
@@ -49,13 +49,13 @@ export default {
         try {
           Toast.loading({
             message: "加载中...",
-            forbidClick: true
+            forbidClick: true,
           });
           loading = true;
           const params = {
             path: "/pages/volume_lcbc/volume_lcbc",
             version: "release",
-            query: `uid=${uid}&aid=${aid}`
+            query: `uid=${uid}&aid=${aid}`,
           };
           const { openlink } = await generatescheme(params);
           Toast.clear();
@@ -68,17 +68,35 @@ export default {
           Notify({ type: "warning", message: err });
         }
       } else {
+
+        const params = `aid=${aid}&uid=${uid}`;
+        const base64Params = encode(params);
+        const url = `https://www.sz.icbc.com.cn/wxbank/openlink/wap2xcx.html?path=packageZH/rideCode/index&params=${base64Params}`;
+        window.location.href = url;
+
         handleClose();
       }
     };
+
+    function encode(str) {
+      // 对字符串进行编码
+
+      var encode = encodeURI(str);
+
+      // 对编码的字符串转化base64
+
+      var base64 = btoa(encode);
+
+      return base64;
+    }
 
     return {
       show,
       handleOpen,
       handleClose,
-      handleToWeChat
+      handleToWeChat,
     };
-  }
+  },
 };
 </script>
 
