@@ -44,7 +44,7 @@ export default {
               store.commit("setDeviceId", deviceId);
               store.commit("setUserId", userId);
               router.push({
-                name: "Ccq"
+                name: "Txsp"
               });
             } else {
               Notify({
