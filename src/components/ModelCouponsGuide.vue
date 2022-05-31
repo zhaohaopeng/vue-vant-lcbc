@@ -47,10 +47,6 @@ export default {
         val: "公交",
       },
       {
-        key: "北京市",
-        val: "公交",
-      },
-      {
         key: "包头市",
         val: "公交",
       },

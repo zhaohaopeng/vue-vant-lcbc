@@ -34,32 +34,49 @@
         </div>
       </div>
       <div class="box-3">可在微信-我-卡包-劵和礼品卡处查看已领取的乘车劵</div>
-      <div class="box-4">
+      <!-- <div class="box-4">
         <div class="title">特色活动</div>
         <div class="center">
           <div class="btn" @click="handleTowWelfare"></div>
         </div>
-      </div>
+      </div> -->
       <div class="box-5">
-        <div class="title">活动规则</div>
-        <p>
-          【兑换上限】单次最多可兑换同一卡种乘车券20张，同卡种乘车券可叠加使用。当信用卡乘车券超过8张时，储蓄卡乘车券不可使用，请按需兑换对应卡种乘车券。
-        </p>
-        <p>
-          【乘车券查询】已兑换的乘车券数量、状态及有效期可在“微信-我-卡包-券和礼品卡”页面中进行查询。
-        </p>
-        <p>
-          【有效期说明】乘车券自领取日起7日内有效，兑换后请在有效期内使用，过期作废，不再发放。
-        </p>
-        <p>
-          【使用方法】在使用乘车券时，需要进入“微信-我-服务-右上角三点-扣费服务”，将对应使用城市的公交和地铁微信免密支付扣费方式更改为对应工行卡种，当实际乘车金额大于乘车券面额时可抵扣。
-        </p>
-        <p>
-          【乘车方式】客户可在微信中搜索“乘车码”小程序，或通过腾讯地图APP主页面“乘车码”图标进行乘车。【可用城市说明】乘车券仅限于指定城市使用，兑换前请提前确认所在城市在“可用城市”列表中。
-        </p>
-        <p>
-          如对于活动有任何疑问，可致电深圳市盛宇信达企业管理咨询有限公司客服:4008762568(工作日9:00-18:00）进行咨询。
-        </p>
+        <ul class="rule-style">
+          <li>一、活动时间：2022年6月6日-2022年12月31日</li>
+          <li>二、活动主题：工行低碳月，<sup>低至</sup> 一分钱出行</li>
+          <li>
+            三、活动内容
+            <div class="text">活动期间，手机银行实名客户登录工商银行手机银行，可使用工行综合积分兑换工行信用卡和储蓄卡乘车券。</div>
+          </li>
+          <li>
+            四、活动规则
+            <div class="text">
+              【积分查询】登录工商银行手机银行，进入“我的”，即可在主页面查看“我的积分”，点击进入“我的积分”，可查看积分明细和本年到期积分。
+            </div>
+            <div class="text">
+              【兑换上限】单次最多可兑换同一卡种乘车券20张，同卡种乘车券可叠加使用。当<span class="text-bold">信用卡乘车券超过8张时，储蓄卡乘车券不可使用</span>，请按需兑换对应卡种乘车券。乘车券<span class="text-bold">数量有限，先到先得</span>。
+            </div>
+            <div class="text">
+              【乘车券查询】已兑换的乘车券数量、状态及有效期可在“微信—我—卡包—券和礼品卡”页面中进行查询。
+            </div>
+            <div class="text">
+              【有效期说明】乘车券自领取日起<span class="text-bold">7日内有效</span>，兑换后请在有效期内使用，<span class="text-bold">过期作废，不再发放</span>。
+            </div>
+            <div class="text">
+              【使用方法】 在使用乘车券时，需要进入<span class="text-bold">“微信—我—支付—右上角3个点—扣费服务”</span>，将对应使用城市的公交和地铁<span class="text-bold">微信免密支付扣费方式</span>更改为<span class="text-bold">对应工行卡种</span>，当实际乘车金额大于乘车券面额时可抵扣。
+            </div>
+            <div class="text">
+              【乘车方式】客户可在微信中搜索“乘车码”小程序，或通过腾讯地图APP主页面“乘车码”图标进行乘车。
+            </div>
+            <div class="text">
+              【可用城市说明】乘车券仅限于<span class="text-bold">指定城市</span>使用，兑换前请提前确认所在城市在“可用城市”列表中。
+            </div>
+            <div class="text">
+              如对于活动有任何疑问，可致电深圳市盛宇信达企业管理咨询有限公司客服：4008762568（工作日9:00-18:00）进行咨询或致电95588客服电话进行咨询。
+            </div>
+            <!-- <span class="text-bold"></span> -->
+          </li>
+        </ul>
       </div>
     </div>
     <ModelCouponsGuide ref="refModelCouponsGuide" />
@@ -422,7 +439,7 @@ export default {
         width: 100%;
         height: 74px;
         margin-top: 10px;
-        background: url("../assets/ccq/active.png") no-repeat center;
+        background: url("../assets/ccq/active-1.jpg") no-repeat center;
         background-size: 100% 100%;
         position: relative;
 
@@ -444,14 +461,25 @@ export default {
       background: url("../assets/ccq/bgd-2.png") no-repeat center;
       background-size: 100% 100%;
       margin: 15px 0;
-      padding: 20px;
-      color: #fff;
-      .title {
-        font-size: 14px;
-        color: #ffffff;
-      }
-      p {
-        margin-bottom: 0;
+      padding: 5px 20px 5px 20px;
+      color: #000;
+      font-size: 13px;
+      .rule-style {
+        list-style: none;
+        li {
+          margin: 12px 0;
+          sup {
+            font-weight: bold;
+          }
+          .text {
+            margin-top: 6px;
+            text-indent: 24px;
+
+            .text-bold {
+              font-weight: bold;
+            }
+          }
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <img src="../assets/ccq/guide.png" alt="用卷指引" />
+    <img src="../assets/ccq/guide.jpg" alt="用卷指引" />
   </div>
 </template>
 
