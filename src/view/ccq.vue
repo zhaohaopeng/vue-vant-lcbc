@@ -462,7 +462,7 @@ export default {
       background-size: 100% 100%;
       margin: 15px 0;
       padding: 5px 20px 5px 20px;
-      color: #000;
+      color: #fff;
       font-size: 13px;
       .rule-style {
         list-style: none;
@@ -477,6 +477,7 @@ export default {
 
             .text-bold {
               font-weight: bold;
+              color: orange
             }
           }
         }

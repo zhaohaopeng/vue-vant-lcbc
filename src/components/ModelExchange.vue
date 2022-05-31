@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="input">
-            <van-stepper v-model="checkedItem.num" />
+            <van-stepper v-model="checkedItem.num" min="1" max="10" />
           </div>
         </div>
         <div class="box-1">
