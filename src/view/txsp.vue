@@ -17,7 +17,7 @@
           <div class="name">{{ item.name }}</div>
           <div class="price">
             <div class="discount">{{ item.discount }}折</div>
-            <div class="text">¥{{ item.scribing_price }}</div>
+            <div class="text">¥{{ item.scribingPrice }}</div>
           </div>
           <div class="integral">{{ item.integral }}积分</div>
           <div class="active" @click="handleExchange(item)">兑换</div>
@@ -135,7 +135,7 @@
             >，登录查看最新会员状态及时长
           </div>
           <div class="text">
-            如有疑问，请咨询深圳市盛宇信达企业管理咨询有限公司，客服电话：400001598（人工服务时间：9:00-18:00）或致电95588客服电话进行咨询。
+            如有疑问，请咨询深圳市盛宇信达企业管理咨询有限公司，客服电话：400-001598（人工服务时间：9:00-18:00）或致电95588客服电话进行咨询。
           </div>
           <!-- <span class="text-bold"></span> -->
         </li>

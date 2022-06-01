@@ -8,9 +8,6 @@
         <div class="swiper-slide">
           <img src="../assets/txsp/banner-2.png" alt="" />
         </div>
-        <div class="swiper-slide">
-          <img src="../assets/txsp/banner-3.png" alt="" />
-        </div>
       </div>
       <!-- Add Pagination -->
       <div class="swiper-pagination"></div>
