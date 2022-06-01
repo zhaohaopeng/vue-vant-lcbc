@@ -5,12 +5,12 @@ module.exports = {
     open: true,
     proxy: {
       '/api': {
-        target: 'https://sy.szduopin.com/api',
+        target: 'https://sy.szduopin.com',
         secure: true, // 是否为 https
         changeOrigin: true, // 是否跨域
-        // pathRewrite: {
-        //   '^/api': '' // 通过pathRewrite重写地址，将前缀/api转为/
-        // }
+        pathRewrite: {
+          '^/api': '' // 通过pathRewrite重写地址，将前缀/api转为/
+        }
       }
     }
   },
