@@ -69,7 +69,7 @@ const router = createRouter({
   scrollBehavior: () => ({
     y: 0
   }),
-  history: createWebHistory('/ccq/'),
+  history: createWebHistory('/txsp/'),
   routes,
 })
 

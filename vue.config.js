@@ -1,6 +1,6 @@
 module.exports = {
   productionSourceMap: false,
-  publicPath: '/ccq/',
+  publicPath: '/txsp/',
   devServer: {
     open: true,
     proxy: {
