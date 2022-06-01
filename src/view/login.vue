@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { getQueryVariable } from "@/utils/index";
 import { queryUserInfoicbc } from "@/api";
 import {
-  Notify
+  Notify,
   // Dialog
 } from "vant";
 export default {
@@ -14,7 +14,7 @@ export default {
       const router = useRouter();
       if (userInfoKey) {
         router.push({
-          name: "Ccq"
+          name: "Txsp",
         });
       } else {
         // Dialog.alert({
@@ -29,14 +29,10 @@ export default {
           window.location.href = urlStr;
         } else {
           try {
-            const {
-              StatusMsg,
-              mobile,
-              deviceId,
-              userId
-            } = await queryUserInfoicbc({
-              userInfoKey: key
-            });
+            const { StatusMsg, mobile, deviceId, userId } =
+              await queryUserInfoicbc({
+                userInfoKey: key,
+              });
 
             if (StatusMsg == "success") {
               store.commit("setUserInfoKey", key);
@@ -44,24 +40,24 @@ export default {
               store.commit("setDeviceId", deviceId);
               store.commit("setUserId", userId);
               router.push({
-                name: "Txsp"
+                name: "Txsp",
               });
             } else {
               Notify({
                 type: "warning",
-                message: "获取用户信息错误"
+                message: "获取用户信息错误",
               });
             }
           } catch (err) {
             Notify({
               type: "warning",
-              message: `系统错误`
+              message: `系统错误`,
             });
           }
         }
       }
     }
     init();
-  }
+  },
 };
 </script>
