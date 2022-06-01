@@ -77,7 +77,6 @@ export default {
   -webkit-align-items: center;
   align-items: center;
   transition: 300ms;
-  background: red;
   transform: scale(0.9);
   border-radius: 6px;
   overflow: hidden;

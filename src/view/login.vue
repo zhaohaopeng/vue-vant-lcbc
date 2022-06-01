@@ -9,6 +9,7 @@ import {
 } from "vant";
 export default {
   setup() {
+    // url 编码 encodeURIComponent 解码 decodeURIComponent
     async function init() {
       const userInfoKey = store.state.userInfoKey;
       const router = useRouter();
@@ -25,7 +26,7 @@ export default {
         const key = getQueryVariable("userInfoKey");
         if (!key) {
           const urlStr =
-            "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Fccq&outerName=19026799";
+            "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Ftxsp&outerName=19026799";
           window.location.href = urlStr;
         } else {
           try {
