@@ -11,7 +11,7 @@
         <div class="icon"></div>
         <div class="text-1">兑换成功</div>
         <div class="text-2">请登录腾讯视频APP查看VIP权益是否到账</div>
-        <div class="btn" @click="handleClose">返回首页</div>
+        <div class="btn" @click="handleClose">我知道了</div>
       </div>
     </div>
   </van-dialog>

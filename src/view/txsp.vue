@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="black-box"></div>
-    <div class="container">
+    <!-- <div class="container">
       <div class="title">优惠充值</div>
       <div class="recharge-list">
         <div class="recharge" v-for="item in 3" :key="item">
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="black-box"></div>
+    <div class="black-box"></div> -->
     <!-- <div class="container">
       <div class="title">活动</div>
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -105,9 +105,12 @@
         <li>
           <div class="title">五、活动规则</div>
           <div class="text">
-            1. 本活动商品均为虚拟物品，一经充值立即生效，<span class="text-bold text-orange"
+            1. 本活动商品均为虚拟物品，一经充值立即生效，<span
+              class="text-bold text-orange"
               >充值成功后不支持退款或退还积分，本商品适用于手机、PAD、电脑（不含电视机）</span
-            >。视频会员名额<span class="text-bold text-orange">数量有限，先到先得</span>。
+            >。视频会员名额<span class="text-bold text-orange"
+              >数量有限，先到先得</span
+            >。
           </div>
           <div class="text">
             2.积分查询方式：登录工商银行手机银行，进入“我的”，即可在主页面查看<span
@@ -128,7 +131,8 @@
             4.如您的手机号已经在腾讯视频站内绑定腾讯视频VIP会员帐号，则会员卡将直接充值到用户绑定会员帐号中；如您的手机号没有在腾讯视频站内绑定会员帐号，需要完成相应手机号绑定及领取后享受会员特权。
           </div>
           <div class="text">
-            5.会员入账查看方式：进入腾讯视频APP，<span class="text-bold text-orange"
+            5.会员入账查看方式：进入腾讯视频APP，<span
+              class="text-bold text-orange"
               >“个人中心一我的VIP会员”</span
             >，或者腾讯视频VIP微信公众号中
             <span class="text-bold text-orange">“VIP服务一我的VIP”</span
@@ -175,7 +179,6 @@ export default {
     const router = useRouter();
     const itemsActive = ref(0);
     const refModelCouponsGuide = ref(null);
-    const refModelResult = ref(null);
     const userInfo = ref(null);
     const activity = ref(null);
     const commodity = ref(null);
@@ -258,6 +261,9 @@ export default {
         name: "Txvip",
         query: {
           value: JSON.stringify(item),
+          uid: userInfo.value.id,
+          aid: activityId,
+          commodityid: commodity.value.id,
         },
       });
     }
@@ -290,10 +296,7 @@ export default {
           userOrderInfo.value.orderstate &&
           userOrderInfo.value.orderstate == "1"
         ) {
-          refModelResult.value.handleOpen({
-            aid: activityId,
-            uid: userInfo.value.id,
-          });
+          refModelTxSuccess.value.handleOpen();
         }
       } catch (err) {
         Notify({ type: "warning", message: err });

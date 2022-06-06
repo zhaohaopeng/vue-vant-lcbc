@@ -10,7 +10,7 @@
           </div>
           <div class="discount">{{ commodity.discount }}折</div>
         </div>
-        <div class="bottom">原价{{ price }}元</div>
+        <div class="bottom">原价{{ commodity.scribingPrice }}元</div>
       </div>
       <div class="box-1">
         <div class="input">
@@ -109,7 +109,9 @@
               1. 本活动商品均为虚拟物品，一经充值立即生效，<span
                 class="text-bold text-orange"
                 >充值成功后不支持退款或退还积分，本商品适用于手机、PAD、电脑（不含电视机）</span
-              >。视频会员名额<span class="text-bold text-orange">数量有限，先到先得</span>。
+              >。视频会员名额<span class="text-bold text-orange"
+                >数量有限，先到先得</span
+              >。
             </div>
             <div class="text">
               2.积分查询方式：登录工商银行手机银行，进入“我的”，即可在主页面查看<span
@@ -130,7 +132,8 @@
               4.如您的手机号已经在腾讯视频站内绑定腾讯视频VIP会员帐号，则会员卡将直接充值到用户绑定会员帐号中；如您的手机号没有在腾讯视频站内绑定会员帐号，需要完成相应手机号绑定及领取后享受会员特权。
             </div>
             <div class="text">
-              5.会员入账查看方式：进入腾讯视频APP，<span class="text-bold text-orange"
+              5.会员入账查看方式：进入腾讯视频APP，<span
+                class="text-bold text-orange"
                 >“个人中心一我的VIP会员”</span
               >，或者腾讯视频VIP微信公众号中
               <span class="text-bold text-orange">“VIP服务一我的VIP”</span
@@ -145,16 +148,20 @@
       </div>
     </div>
     <div class="recharge">
-      <div class="recharge-btn-1">24元</div>
-      <div class="recharge-btn-2">立即兑换</div>
+      <div class="recharge-btn-1" @click="handleCreateOrder(1)">
+        {{ commodity.price }}
+      </div>
+      <div class="recharge-btn-2" @click="handleCreateOrder(2)">立即兑换</div>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-import { Field, Col, Row } from "vant";
+import { Field, Col, Row, Notify } from "vant";
 import { useRoute } from "vue-router";
+import { createOrder } from "@/api/index";
+import store from "@/store";
 
 export default {
   components: {
@@ -163,18 +170,44 @@ export default {
     [Row.name]: Row,
   },
   setup() {
+    const userId = store.state.userId;
     const userAccout = ref(null);
     const route = useRoute();
 
-    const { value } = route.query;
+    const { value, uid, aid, commodityid } = route.query;
+
     let commodity = {};
     if (value) {
       commodity = JSON.parse(value);
     }
 
+    const handleCreateOrder = async () => {
+      const params = {
+        uid,
+        activityid: aid,
+        commodityid,
+        cardType: userAccout.value,
+        num: 1,
+        rygUserId: userId,
+      };
+
+      try {
+        const res = await createOrder(params);
+        const { StatusMsg, StatusCode } = res;
+        if (StatusCode == 0) {
+          document.write(StatusMsg);
+        } else {
+          Notify({ type: "warning", message: StatusMsg });
+        }
+      } catch (x) {
+        Notify({ type: "warning", message: x });
+      }
+    };
+
     return {
       commodity,
       userAccout,
+      handleCreateOrder,
     };
   },
 };
