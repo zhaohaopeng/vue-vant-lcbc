@@ -149,7 +149,7 @@
     </div>
     <div class="recharge">
       <div class="recharge-btn-1" @click="handleCreateOrder(1)">
-        {{ commodity.price }}
+        {{ commodity.price }}元
       </div>
       <div class="recharge-btn-2" @click="handleCreateOrder(2)">立即兑换</div>
     </div>
@@ -158,7 +158,7 @@
 
 <script>
 import { ref } from "vue";
-import { Field, Col, Row, Notify } from "vant";
+import { Field, Col, Row, Notify, Toast } from "vant";
 import { useRoute } from "vue-router";
 import { createOrder } from "@/api/index";
 import store from "@/store";
@@ -182,6 +182,10 @@ export default {
     }
 
     const handleCreateOrder = async () => {
+      if (!userAccout.value || userAccout.value.length == 0) {
+        Toast("请输入手机号、QQ、微信号");
+        return;
+      }
       const params = {
         uid,
         activityid: aid,
@@ -190,16 +194,21 @@ export default {
         num: 1,
         rygUserId: userId,
       };
-
       try {
+        Toast.loading({
+          message: "加载中...",
+          forbidClick: true,
+        });
         const res = await createOrder(params);
         const { StatusMsg, StatusCode } = res;
+        Toast.clear();
         if (StatusCode == 0) {
           document.write(StatusMsg);
         } else {
           Notify({ type: "warning", message: StatusMsg });
         }
       } catch (x) {
+        Toast.clear();
         Notify({ type: "warning", message: x });
       }
     };

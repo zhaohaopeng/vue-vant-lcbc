@@ -86,3 +86,9 @@ export const generatescheme = (data) => request({
   method: 'post',
   data
 })
+
+export const queryPaymentStatus = (data) => request({
+  url: '/v1/icbc/queryPaymentStatus',
+  method: 'get',
+  params: data
+})

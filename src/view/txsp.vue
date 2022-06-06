@@ -159,7 +159,7 @@ import {
   queryUserInfo,
   queryByIdActivity,
   queryCommodity,
-  queryOrderInfo,
+  queryPaymentStatus,
 } from "@/api/index";
 import store from "@/store";
 import { useRouter } from "vue-router";
@@ -182,7 +182,6 @@ export default {
     const userInfo = ref(null);
     const activity = ref(null);
     const commodity = ref(null);
-    const userOrderInfo = ref({});
 
     onMounted(() => {
       // refModelTxSuccess.value.handleOpen();
@@ -263,7 +262,7 @@ export default {
           value: JSON.stringify(item),
           uid: userInfo.value.id,
           aid: activityId,
-          commodityid: commodity.value.id,
+          commodityid: item.id,
         },
       });
     }
@@ -286,16 +285,12 @@ export default {
     // 查询指定人员订单信息
     const handleQueryOrderInfo = async () => {
       try {
-        const res = await queryOrderInfo({
+        const res = await queryPaymentStatus({
           uid: userInfo.value.id,
           activityid: activityId,
         });
-        userOrderInfo.value = res || {};
-        if (
-          userOrderInfo.value &&
-          userOrderInfo.value.orderstate &&
-          userOrderInfo.value.orderstate == "1"
-        ) {
+        const { StatusCode } = res;
+        if (StatusCode == 0) {
           refModelTxSuccess.value.handleOpen();
         }
       } catch (err) {
