@@ -287,7 +287,7 @@ export default {
       try {
         const res = await queryPaymentStatus({
           uid: userInfo.value.id,
-          activityid: activityId,
+          aid: activityId,
         });
         const { StatusCode } = res;
         if (StatusCode == 0) {
