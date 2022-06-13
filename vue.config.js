@@ -17,7 +17,7 @@ module.exports = {
   chainWebpack: config => {
     config.plugin('html')
       .tap(args => {
-        args[0].title = "盛宇信达";
+        args[0].title = "乘车券";
         return args;
       })
   },

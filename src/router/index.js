@@ -11,18 +11,20 @@ NProgress.configure({
   showSpinner: false
 })
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'login',
     component: () => import('@/view/login'),
+    meta: {
+      title: '乘车券'
+    }
   },
   {
     path: '/ccq',
     name: 'Ccq',
     component: () => import('@/view/ccq'),
     meta: {
-      title: '乘车券活动'
+      title: '乘车券'
     }
   },
   {
@@ -54,13 +56,16 @@ const routes = [
     name: 'Guide',
     component: () => import('@/view/guide'),
     meta: {
-      title: '用卷指引'
+      title: '乘车券'
     }
   },
   {
     path: '/ride',
     name: 'Ride',
     component: () => import('@/view/ride'),
+    meta: {
+      title: '乘车券'
+    }
   },
 
 ]
