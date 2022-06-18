@@ -76,7 +76,7 @@
           </van-col>
         </van-row>
         <ul class="rule-style">
-          <li>
+          <!-- <li>
             <div class="rule-title">一、活动时间</div>
             <div class="text-subtitle">2022年6月6日-2022年12月31日</div>
           </li>
@@ -102,9 +102,9 @@
             <div class="text">
               活动期间，手机银行实名客户登录手机银行“腾讯视频观影月”活动页“优惠充值”栏目，可享受8折充值优惠。
             </div>
-          </li>
+          </li> -->
           <li>
-            <div class="rule-title">五、活动规则</div>
+            <div class="rule-title">一、活动规则</div>
             <div class="text">
               1. 本活动商品均为虚拟物品，一经充值立即生效，<span
                 class="text-bold text-orange"
