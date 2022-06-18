@@ -7,11 +7,11 @@
   >
     <div class="dialog-body">
       <div class="container">
-        <div class="close" @click="handleClose"></div>
+        <!-- <div class="close" @click="handleClose"></div> -->
         <div class="icon"></div>
-        <div class="text-1">兑换成功</div>
-        <div class="text-2">请点击确认去小程序查看领劵明细</div>
-        <div class="btn" @click="handleToWeChat">确认</div>
+        <div class="text-1">请点击去领劵</div>
+        <!-- <div class="text-2">请点击去领劵</div> -->
+        <div class="btn" @click="handleToWeChat">去领劵</div>
       </div>
     </div>
   </van-dialog>
@@ -107,7 +107,7 @@ export default {
   position: relative;
   .container {
     width: 100%;
-    height: 230px;
+    height: 200px;
     background: url("../assets/ccq/bgd-1.png") no-repeat center;
     background-size: 100% 100%;
     text-align: center;
