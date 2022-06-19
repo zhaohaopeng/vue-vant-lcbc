@@ -310,6 +310,7 @@ export default {
       height: 84px;
       background: url("../assets/ccq/header-text.png") no-repeat center;
       background-size: 100% 100%;
+      margin :0 auto;
       margin-top: 44px;
     }
   }
