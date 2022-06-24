@@ -51,37 +51,39 @@
           <li>
             一、活动规则
             <div class="text">
-              【积分查询】登录工商银行手机银行，进入“我的”，即可在主页面查看“我的积分”，点击进入“我的积分”，可查看积分明细和本年到期积分。
+              【兑换上限】单次最多可兑换同一卡种乘车券10张，同一卡种的乘车券可叠加使用，单次最多使用8张。不同卡种乘车券不可混合使用，请按需兑换对应卡种乘车券。
             </div>
             <div class="text">
-              【兑换上限】单次最多可兑换同一卡种乘车券20张，同卡种乘车券可叠加使用。当<span class="text-bold">信用卡乘车券超过8张时，储蓄卡乘车券不可使用</span>，请按需兑换对应卡种乘车券。乘车券<span class="text-bold">数量有限，先到先得</span>。
+              【乘车券查询】已兑换的乘车券数量、状态及有效期可在“微信—我—券和礼品卡”页面中进行查询。
             </div>
             <div class="text">
-              【乘车券查询】已兑换的乘车券数量、状态及有效期可在“微信—我—卡包—券和礼品卡”页面中进行查询。
+              【有效期说明】乘车券自领取日起7日内有效，兑换后请在有效期内使用，过期作废，不再发放。
             </div>
             <div class="text">
-              【有效期说明】乘车券自领取日起<span class="text-bold">7日内有效</span>，兑换后请在有效期内使用，<span class="text-bold">过期作废，不再发放</span>。
-            </div>
-            <div class="text">
-              【使用方法】 在使用乘车券时，需要进入<span class="text-bold">“微信—我—支付—右上角3个点—扣费服务”</span>，将对应使用城市的公交和地铁<span class="text-bold">微信免密支付扣费方式</span>更改为<span class="text-bold">对应工行卡种</span>，当实际乘车金额大于乘车券面额时可抵扣。
+              【使用方法】
+              在使用乘车券时，需要进入“微信—我—支付—右上角3个点—扣费服务”，将对应使用城市的公交和地铁微信免密支付扣费方式更改为对应工行卡种，当实际乘车金额大于乘车券面额时可抵扣。
             </div>
             <div class="text">
               【乘车方式】客户可在微信中搜索“乘车码”小程序，或通过腾讯地图APP主页面“乘车码”图标进行乘车。
             </div>
             <div class="text">
-              【可用城市说明】乘车券仅限于<span class="text-bold">指定城市</span>使用，兑换前请提前确认所在城市在“可用城市”列表中。
+              【可用城市说明】乘车券仅限于指定城市使用，兑换前请提前确认所在城市在“可用城市”列表中
+            </div>
+            <div class="text">【工行综合积分查询路径】</div>
+            <div class="text">
+              登录个人手机银行后，在下方点击“我的”，即可在页面上方查看“我的积分”。
             </div>
             <div class="text">
-              如对于活动有任何疑问，可致电深圳市盛宇信达企业管理咨询有限公司客服：4008762568（工作日9:00-18:00）进行咨询或致电95588客服电话进行咨询。
+              如对于活动有任何疑问，可致电深圳市盛宇信达企业管理咨询有限公司客服：4008762568（工作日9:00-18:00）进行咨询。
             </div>
-            <!-- <span class="text-bold"></span> -->
+            <div class="text">工商银行咨询投诉电话：95588</div>
           </li>
         </ul>
       </div>
     </div>
     <ModelCouponsGuide ref="refModelCouponsGuide" />
     <ModelResult ref="refModelResult" />
-    <ModelExchange ref="refModelExchange"  @ok="handleToWeChat" />
+    <ModelExchange ref="refModelExchange" @ok="handleToWeChat" />
   </div>
 </template>
 
@@ -97,7 +99,7 @@ import {
   queryUserInfo,
   queryByIdActivity,
   queryCommodity,
-  queryOrderInfo
+  queryOrderInfo,
 } from "@/api/index";
 import { Notify, Dialog } from "vant";
 import store from "@/store";
@@ -106,7 +108,7 @@ export default {
     ModelCouponsGuide,
     ModelResult,
     ModelExchange,
-    [Dialog.Component.name]: Dialog.Component
+    [Dialog.Component.name]: Dialog.Component,
   },
   setup() {
     const activityId = 1;
@@ -151,7 +153,7 @@ export default {
     }
 
     // 查询用户
-    const handleQueryUserInfo = async params => {
+    const handleQueryUserInfo = async (params) => {
       try {
         const res = await queryUserInfo(params);
         userInfo.value = res;
@@ -166,7 +168,7 @@ export default {
       const params = {
         account: mobile,
         ryuserid: userId,
-        deviceId: deviceId
+        deviceId: deviceId,
       };
       try {
         if (mobile) {
@@ -186,7 +188,7 @@ export default {
         refModelCouponsGuide.value.handleOpen("可用城市");
       } else {
         router.push({
-          name: "Guide"
+          name: "Guide",
         });
       }
     }
@@ -213,7 +215,7 @@ export default {
 
     function handleJump() {
       router.push({
-        name: "Ride"
+        name: "Ride",
       });
     }
 
@@ -231,7 +233,7 @@ export default {
       try {
         const res = await queryOrderInfo({
           uid: userInfo.value.id,
-          activityid: activityId
+          activityid: activityId,
         });
         userOrderInfo.value = res || {};
         if (
@@ -241,7 +243,7 @@ export default {
         ) {
           refModelResult.value.handleOpen({
             aid: activityId,
-            uid: userInfo.value.id
+            uid: userInfo.value.id,
           });
         }
       } catch (err) {
@@ -252,7 +254,7 @@ export default {
     const handleToWeChat = () => {
       refModelResult.value.handleOpen({
         aid: activityId,
-        uid: userInfo.value.id
+        uid: userInfo.value.id,
       });
     };
 
@@ -266,9 +268,9 @@ export default {
       handleExchange,
       handleJump,
       handleTowWelfare,
-      handleToWeChat
+      handleToWeChat,
     };
-  }
+  },
 };
 </script>
 
@@ -310,7 +312,7 @@ export default {
       height: 84px;
       background: url("../assets/ccq/header-text.png") no-repeat center;
       background-size: 100% 100%;
-      margin :0 auto;
+      margin: 0 auto;
       margin-top: 44px;
     }
   }
