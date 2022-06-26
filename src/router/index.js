@@ -7,25 +7,27 @@ import {
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 
+import store from "../store";
+import {
+  getQueryVariable
+} from "@/utils/index";
+import {
+  queryUserInfoicbc
+} from "@/api";
+
+import {
+  Notify
+  // Dialog
+} from "vant";
+
 NProgress.configure({
   showSpinner: false
 })
 
-const routes = [{
-    path: '/',
-    name: 'login',
-    component: () => import('@/view/login'),
-    meta: {
-      title: '腾讯视频'
-    }
-  },
+const routes = [
   {
-    path: '/ccq',
-    name: 'Ccq',
-    component: () => import('@/view/ccq'),
-    meta: {
-      title: '腾讯视频'
-    }
+    path: '/',
+    redirect: '/txsp'
   },
   {
     path: '/txsp',
@@ -51,23 +53,6 @@ const routes = [{
       title: '腾讯视频'
     }
   },
-  {
-    path: '/guide',
-    name: 'Guide',
-    component: () => import('@/view/guide'),
-    meta: {
-      title: '腾讯视频'
-    }
-  },
-  {
-    path: '/ride',
-    name: 'Ride',
-    component: () => import('@/view/ride'),
-    meta: {
-      title: '腾讯视频'
-    }
-  },
-
 ]
 
 const router = createRouter({
@@ -78,18 +63,6 @@ const router = createRouter({
   routes,
 })
 
-// import store from '@/store'
-// import {
-//   Notify,
-// } from 'vant'
-// import {
-//   queryBankUserInfo
-// } from '@/api'
-// import {
-//   // isChinese,
-//   getQueryParam
-// } from '@/utils/index'
-
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
   const {
@@ -98,40 +71,46 @@ router.beforeEach(async (to, from, next) => {
   if (title) {
     document.title = title;
   }
-  next();
-  // if (store.state.account) {
-  //   next();
-  // } else {
-  //   const {
-  //     areaName,
-  //     xml,
-  //     key
-  //   } = getQueryParam(window.location.href);
-  //   if (areaName && xml && key) {
-  //     try {
-  //       const res = await queryBankUserInfo({
-  //         areaName,
-  //         key,
-  //         xml
-  //       })
-  //       if (res.StatusMsg == 'success') {
-  //         store.commit('setopenid', res.openID);
-  //         store.commit('setAccount', res.phoneNumber);
-  //         store.commit('setUserinfo', res);
-  //         next();
-  //       } else {
-  //         next();
-  //       }
-  //     } catch {
-  //       Notify({
-  //         type: "warning",
-  //         message: "未获取到用户信息"
-  //       });
-  //     }
-  //   } else {
-  //     next();
-  //   }
-  // }
+  const userInfoKey = store.state.userInfoKey;
+  if (userInfoKey) {
+    next();
+  } else {
+    const key = getQueryVariable("userInfoKey");
+    if (!key) {
+      const urlStr =
+        "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Fccq&outerName=19026799";
+      window.location.href = urlStr;
+    } else {
+      try {
+        const {
+          StatusMsg,
+          mobile,
+          deviceId,
+          userId
+        } = await queryUserInfoicbc({
+          userInfoKey: key
+        });
+
+        if (StatusMsg == "success") {
+          store.commit("setUserInfoKey", key);
+          store.commit("setMobile", mobile);
+          store.commit("setDeviceId", deviceId);
+          store.commit("setUserId", userId);
+          next();
+        } else {
+          Notify({
+            type: "warning",
+            message: "获取用户信息错误"
+          });
+        }
+      } catch (err) {
+        Notify({
+          type: "warning",
+          message: `系统错误`
+        });
+      }
+    }
+  }
 })
 
 router.afterEach(() => {
