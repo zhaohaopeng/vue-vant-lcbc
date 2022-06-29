@@ -77,6 +77,10 @@ router.beforeEach(async (to, from, next) => {
   } else {
     const key = getQueryVariable("userInfoKey");
     if (!key) {
+
+      /**
+       * @name 此处注意腾讯视频要和乘车劵区分开
+       */
       const urlStr =
         "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Ftxsp&outerName=19026799";
       window.location.href = urlStr;
