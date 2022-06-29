@@ -78,7 +78,7 @@ router.beforeEach(async (to, from, next) => {
     const key = getQueryVariable("userInfoKey");
     if (!key) {
       const urlStr =
-        "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Fccq&outerName=19026799";
+        "https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=http%3A%2F%2Fsy.szduopin.com%2Ftxsp&outerName=19026799";
       window.location.href = urlStr;
     } else {
       try {
