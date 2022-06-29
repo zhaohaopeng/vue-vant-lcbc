@@ -6,8 +6,8 @@
   >
     <div class="dialog-body">
       <div class="title">{{ title }}</div>
+      <div class="close" @click="handleClose"></div>
       <div class="container">
-        <div class="close" @click="handleClose"></div>
         <div class="item" v-for="(item, index) in list" :key="index">
           {{ item.key }} {{ item.val }}
         </div>
@@ -711,6 +711,16 @@ export default {
     color: #fff;
     z-index: 99;
   }
+  .close {
+    width: 22px;
+    height: 22px;
+    background: url("../assets/ccq/close.png") no-repeat center;
+    background-size: 100% 100%;
+    position: absolute;
+    right: 28px;
+    top: 28px;
+    z-index: 100;
+  }
   .container {
     width: 100%;
     height: 50vh;
@@ -723,15 +733,6 @@ export default {
     font-size: 13px;
     position: relative;
     overflow-y: auto;
-    .close {
-      width: 14px;
-      height: 14px;
-      background: url("../assets/ccq/close.png") no-repeat center;
-      background-size: 100% 100%;
-      position: absolute;
-      right: 6px;
-      top: 6px;
-    }
     .item {
       margin-top: 10px;
     }
