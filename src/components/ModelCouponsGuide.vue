@@ -8,8 +8,13 @@
       <div class="title">{{ title }}</div>
       <div class="close" @click="handleClose"></div>
       <div class="container">
-        <div class="item" v-for="(item, index) in list" :key="index">
-          {{ item.key }} {{ item.val }}
+        <div class="current-city" v-if="currentCity">
+          <van-icon name="location-o" />当前城市：{{ currentCity }}
+        </div>
+        <div class="list-box">
+          <div class="item" v-for="(item, index) in list" :key="index">
+            {{ item.key }} {{ item.val }}
+          </div>
         </div>
       </div>
     </div>
@@ -19,6 +24,7 @@
 <script>
 import { ref } from "vue";
 import { Icon, Dialog } from "vant";
+import { getCurrentPosition } from "@/utils";
 export default {
   name: "ModelApplyLimit",
   components: {
@@ -28,6 +34,14 @@ export default {
   setup() {
     const title = ref([]);
     const show = ref(false);
+    const currentCity = ref(null);
+
+    /**
+     * @name 获取当前所在城市
+     */
+    getCurrentPosition((city) => {
+      currentCity.value = city;
+    });
 
     const list = [
       {
@@ -667,6 +681,46 @@ export default {
         key: "邹平县",
         val: "公交",
       },
+      {
+        key: "重庆区",
+        val: "县公交",
+      },
+      {
+        key: "蚌埠",
+        val: "公交",
+      },
+      {
+        key: "黎族自治州",
+        val: "蒙自公交",
+      },
+      {
+        key: "兰州市",
+        val: "公交",
+      },
+      {
+        key: "洛阳市",
+        val: "公交",
+      },
+      {
+        key: "绍兴市",
+        val: "公交",
+      },
+      {
+        key: "武汉市",
+        val: "地铁",
+      },
+      {
+        key: "合肥市",
+        val: "地铁",
+      },
+      {
+        key: "东莞市",
+        val: "地铁",
+      },
+      {
+        key: "锦州市",
+        val: "公交",
+      },
     ];
 
     const handleOpen = (t) => {
@@ -682,6 +736,7 @@ export default {
       title,
       show,
       list,
+      currentCity,
       handleOpen,
       handleClose,
     };
@@ -721,6 +776,7 @@ export default {
     top: 28px;
     z-index: 100;
   }
+
   .container {
     width: 100%;
     height: 50vh;
@@ -728,13 +784,23 @@ export default {
     background-size: 100% 100%;
     text-align: center;
     box-sizing: border-box;
-    padding-top: 30px;
     color: #fff;
     font-size: 13px;
     position: relative;
-    overflow-y: auto;
-    .item {
+    padding-top: 40px;
+    .list-box {
+      height: 40vh;
+      overflow-y: auto;
       margin-top: 10px;
+      .item {
+        margin-top: 10px;
+      }
+    }
+
+    .current-city {
+      color: #000;
+      z-index: 1000;
+      width: 100%;
     }
   }
 }
