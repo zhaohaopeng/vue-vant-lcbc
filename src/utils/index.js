@@ -27,21 +27,3 @@ export function isChinese(temp) {
   if (re.test(temp)) return false;
   return true;
 }
-
-
-export function getCurrentPosition(cb) {
-  const qq = window.qq;
-  var geolocation = new qq.maps.Geolocation('S62BZ-DUK6D-USE4R-PWYOF-YDW4T-FMBW7', 'myapp');
-  geolocation.getLocation((position) => {
-    if (position) {
-      const {
-        city
-      } = position;
-      cb(city)
-    } else {
-      cb(null)
-    }
-  }, () => {
-    cb(null)
-  });
-}
