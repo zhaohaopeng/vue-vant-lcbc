@@ -8,15 +8,11 @@
       <div class="title">{{ title }}</div>
       <div class="close" @click="handleClose"></div>
       <div class="container">
-        <div class="current-city" >
-          <div v-if="currentCity">
-            <van-icon name="location-o" />当前城市：{{ currentCity }}
-          </div>
-          <div v-else>
-            <van-icon name="location-o" />当前城市不可用
-          </div>
+        <div class="current-city">
+          <van-icon name="location-o" />当前城市：{{ currentCity }}
+          <span v-if="positionState == 1">乘车券可使用</span>
+          <span v-if="positionState == 0">乘车券不可使用</span>
         </div>
-        
         <div class="list-box">
           <div class="item" v-for="(item, index) in list" :key="index">
             {{ item.key }} {{ item.val }}
@@ -30,7 +26,6 @@
 <script>
 import { ref } from "vue";
 import { Icon, Dialog } from "vant";
-import { getCurrentPosition } from "@/utils";
 export default {
   name: "ModelApplyLimit",
   components: {
@@ -41,7 +36,7 @@ export default {
     const title = ref([]);
     const show = ref(false);
     const currentCity = ref(null);
-
+    const positionState = ref(0);
     const list = [
       {
         key: "保定市",
@@ -725,17 +720,32 @@ export default {
     /**
      * @name 获取当前所在城市
      */
-    getCurrentPosition((city) => {
-      list.forEach((item) => {
-        if (item.key == city) {
+    const getCurrentPosition = () => {
+      const qq = window.qq;
+      var geolocation = new qq.maps.Geolocation(
+        "S62BZ-DUK6D-USE4R-PWYOF-YDW4T-FMBW7",
+        "myapp"
+      );
+      geolocation.getLocation(
+        (position) => {
+          const { city } = position;
           currentCity.value = city;
+          list.forEach((item) => {
+            if (item.key == city) {
+              positionState.value = 1;
+            }
+          });
+        },
+        () => {
+          currentCity.value = "未获取到当前位置";
         }
-      });
-    });
+      );
+    };
 
     const handleOpen = (t) => {
       title.value = t;
       show.value = true;
+      getCurrentPosition();
     };
 
     const handleClose = () => {
@@ -747,6 +757,7 @@ export default {
       show,
       list,
       currentCity,
+      positionState,
       handleOpen,
       handleClose,
     };
@@ -802,12 +813,14 @@ export default {
       height: 40vh;
       overflow-y: auto;
       margin-top: 10px;
+
       .item {
-        margin-top: 10px;
+        margin-top: 5px;
       }
     }
 
     .current-city {
+      font-size: 14px;
       color: #000;
       z-index: 1000;
       width: 100%;
