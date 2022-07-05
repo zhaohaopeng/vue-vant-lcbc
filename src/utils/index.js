@@ -31,8 +31,8 @@ export function isChinese(temp) {
 
 export function getCurrentPosition(cb) {
   const qq = window.qq;
-  var geolocation = new qq.maps.Geolocation();
-  geolocation.getIpLocation((position) => {
+  var geolocation = new qq.maps.Geolocation('S62BZ-DUK6D-USE4R-PWYOF-YDW4T-FMBW7', 'myapp');
+  geolocation.getLocation((position) => {
     if (position) {
       const {
         city
@@ -41,5 +41,7 @@ export function getCurrentPosition(cb) {
     } else {
       cb(null)
     }
+  }, () => {
+    cb(null)
   });
 }

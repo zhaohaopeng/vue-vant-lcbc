@@ -8,9 +8,15 @@
       <div class="title">{{ title }}</div>
       <div class="close" @click="handleClose"></div>
       <div class="container">
-        <div class="current-city" v-if="currentCity">
-          <van-icon name="location-o" />当前城市：{{ currentCity }}
+        <div class="current-city" >
+          <div v-if="currentCity">
+            <van-icon name="location-o" />当前城市：{{ currentCity }}
+          </div>
+          <div v-else>
+            <van-icon name="location-o" />当前城市不可用
+          </div>
         </div>
+        
         <div class="list-box">
           <div class="item" v-for="(item, index) in list" :key="index">
             {{ item.key }} {{ item.val }}
@@ -35,13 +41,6 @@ export default {
     const title = ref([]);
     const show = ref(false);
     const currentCity = ref(null);
-
-    /**
-     * @name 获取当前所在城市
-     */
-    getCurrentPosition((city) => {
-      currentCity.value = city;
-    });
 
     const list = [
       {
@@ -722,6 +721,17 @@ export default {
         val: "公交",
       },
     ];
+
+    /**
+     * @name 获取当前所在城市
+     */
+    getCurrentPosition((city) => {
+      list.forEach((item) => {
+        if (item.key == city) {
+          currentCity.value = city;
+        }
+      });
+    });
 
     const handleOpen = (t) => {
       title.value = t;
