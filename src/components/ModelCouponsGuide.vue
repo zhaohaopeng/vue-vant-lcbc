@@ -36,7 +36,7 @@ export default {
     const title = ref([]);
     const show = ref(false);
     const currentCity = ref(null);
-    const positionState = ref(0);
+    const positionState = ref(2);
     const list = [
       {
         key: "保定市",
@@ -735,8 +735,12 @@ export default {
               positionState.value = 1;
             }
           });
+          if (positionState.value == 2) {
+            positionState.value = 0;
+          }
         },
         () => {
+           positionState.value = 2;
           currentCity.value = "未获取到当前位置";
         }
       );
